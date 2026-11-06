@@ -1,18 +1,899 @@
-<!doctype html><html lang="cs"><head><meta charset="utf-8"><meta name="viewport" content="width=device-width,initial-scale=1,maximum-scale=1,viewport-fit=cover"><meta name="apple-mobile-web-app-capable" content="yes"><title>Směny 2027</title><style>
-*{box-sizing:border-box}:root{--blue:#0a84ff;--orange:#ff9f0a;--red:#ff3b30;--green:#34c759;--purple:#af52de;--bg:#f2f2f7;--text:#1c1c1e;--gray:#e5e5ea}body{margin:0;background:var(--bg);color:var(--text);font-family:-apple-system,BlinkMacSystemFont,"Helvetica Neue",Arial,sans-serif}header{position:sticky;top:0;z-index:10;background:#f9f9f9;border-bottom:1px solid #d1d1d6;padding:calc(10px + env(safe-area-inset-top)) 12px 10px}.bar{max-width:900px;margin:auto}h1{font-size:22px;margin:0 0 10px}.controls{display:flex;gap:8px}button,select{font:inherit}.seg,select{border:0;background:#e5e5ea;border-radius:10px;padding:9px 11px}.seg.on{background:white;color:#007aff;box-shadow:0 1px 4px #0002}select{flex:1}main{max-width:900px;margin:auto;padding:12px 10px 40px}.legend{display:flex;gap:7px;overflow:auto;padding:2px 0 12px;font-size:12px;white-space:nowrap}.legend span{background:white;border-radius:999px;padding:6px 9px}.month{background:#fff;border-radius:20px;padding:12px;margin-bottom:14px}.month h2{margin:0 0 10px;font-size:18px}.week,.grid{display:grid;grid-template-columns:repeat(7,1fr);gap:4px}.week span{text-align:center;font-size:10px;color:#8e8e93;font-weight:700;padding-bottom:3px}.day{appearance:none;-webkit-appearance:none;border:1px solid #d1d1d6;border-radius:11px;min-height:73px;padding:5px 3px;color:#1c1c1e;text-align:left;position:relative;overflow:hidden;background:white}.day b{display:block;font-size:14px}.day small{display:block;font-size:8px;font-weight:800;margin-top:8px;overflow:hidden}.day em{display:block;font-style:normal;color:var(--red);font-size:8px;font-weight:900}.morning{background:#ededf0}.afternoon{background:#fff0d8;border-color:#ffc35c}.night{background:#d9edff;border-color:#82bfff}.free{background:white}.holiday{box-shadow:inset 0 0 0 2px var(--red)}.holiday b{color:var(--red)}.day.vac i{position:absolute;right:5px;top:5px;width:9px;height:9px;background:var(--green);border-radius:50%}.day.note:after{content:'•';position:absolute;right:5px;bottom:2px;color:var(--purple);font-size:20px}.year .month{padding:8px}.year .month h2{font-size:14px}.year .day{min-height:44px;border-radius:7px;padding:3px}.year .day small,.year .day em{display:none}.year .day b{font-size:10px}.year .week span{font-size:8px}dialog{border:0;border-radius:22px;padding:18px;width:calc(100% - 24px);max-width:460px}dialog::backdrop{background:#0007}label{display:block;font-size:13px;font-weight:700;margin:12px 0 5px}textarea{width:100%;height:100px;border:1px solid #d1d1d6;background:#f2f2f7;border-radius:12px;padding:10px;font:inherit}.check{display:flex;gap:8px;align-items:center;background:#f2f2f7;padding:11px;border-radius:12px}.actions{display:flex;justify-content:flex-end;gap:7px;margin-top:12px}.actions button{border:0;border-radius:10px;padding:9px 12px}#save{background:#007aff;color:white}@media(min-width:700px){main.year{display:grid;grid-template-columns:repeat(3,1fr);gap:12px}main.year .month{margin:0}}@media(max-width:430px){.day{min-height:66px}.month{border-radius:16px;padding:9px}}
-</style>
-<link rel="manifest" href="manifest.webmanifest">
-<link rel="apple-touch-icon" href="apple-touch-icon.png">
-<meta name="apple-mobile-web-app-capable" content="yes">
-<meta name="apple-mobile-web-app-status-bar-style" content="default">
-<meta name="apple-mobile-web-app-title" content="Směny 2027">
-<meta name="theme-color" content="#f9f9f9">
-</head><body><header><div class="bar"><h1>Směny Růžička 2027</h1><div class="controls"><button class="seg on" id="one" onclick="oneMonth()">Měsíc</button><button class="seg" id="all" onclick="yearView()">Rok</button><select id="pick" onchange="chooseMonth(this.value)"><option value="1">Leden</option><option value="2">Únor</option><option value="3">Březen</option><option value="4">Duben</option><option value="5">Květen</option><option value="6">Červen</option><option value="7">Červenec</option><option value="8">Srpen</option><option value="9">Září</option><option value="10">Říjen</option><option value="11">Listopad</option><option value="12">Prosinec</option></select></div></div></header><main id="cal"><div class="legend"><span>🔵 Noční</span><span>🟠 Odpolední</span><span>⚪ Ranní</span><span>🔴 Svátek</span><span>🟢 Dovolená</span><span>🟣 Komentář</span></div><section class="month" id="m1"><h2>Leden 2027</h2><div class="week"><span>Po</span><span>Út</span><span>St</span><span>Čt</span><span>Pá</span><span>So</span><span>Ne</span></div><div class="grid"><div class="blank"></div><div class="blank"></div><div class="blank"></div><div class="blank"></div><button class="day morning holiday" data-date="1.1.27" data-shift="RANNÍ" onclick="editDay(this)"><b>1</b><small>RANNÍ</small><em>SVÁTEK</em><i></i></button><button class="day free" data-date="2.1.27" data-shift="VOLNO" onclick="editDay(this)"><b>2</b><small>VOLNO</small><i></i></button><button class="day night" data-date="3.1.27" data-shift="NOČNÍ" onclick="editDay(this)"><b>3</b><small>NOČNÍ</small><i></i></button><button class="day night" data-date="4.1.27" data-shift="NOČNÍ" onclick="editDay(this)"><b>4</b><small>NOČNÍ</small><i></i></button><button class="day night" data-date="5.1.27" data-shift="NOČNÍ" onclick="editDay(this)"><b>5</b><small>NOČNÍ</small><i></i></button><button class="day night" data-date="6.1.27" data-shift="NOČNÍ" onclick="editDay(this)"><b>6</b><small>NOČNÍ</small><i></i></button><button class="day night" data-date="7.1.27" data-shift="NOČNÍ" onclick="editDay(this)"><b>7</b><small>NOČNÍ</small><i></i></button><button class="day night" data-date="8.1.27" data-shift="NOČNÍ" onclick="editDay(this)"><b>8</b><small>NOČNÍ</small><i></i></button><button class="day free" data-date="9.1.27" data-shift="VOLNO" onclick="editDay(this)"><b>9</b><small>VOLNO</small><i></i></button><button class="day free" data-date="10.1.27" data-shift="VOLNO" onclick="editDay(this)"><b>10</b><small>VOLNO</small><i></i></button><button class="day afternoon" data-date="11.1.27" data-shift="ODPOLEDNÍ" onclick="editDay(this)"><b>11</b><small>ODPOLEDNÍ</small><i></i></button><button class="day afternoon" data-date="12.1.27" data-shift="ODPOLEDNÍ" onclick="editDay(this)"><b>12</b><small>ODPOLEDNÍ</small><i></i></button><button class="day afternoon" data-date="13.1.27" data-shift="ODPOLEDNÍ" onclick="editDay(this)"><b>13</b><small>ODPOLEDNÍ</small><i></i></button><button class="day afternoon" data-date="14.1.27" data-shift="ODPOLEDNÍ" onclick="editDay(this)"><b>14</b><small>ODPOLEDNÍ</small><i></i></button><button class="day free" data-date="15.1.27" data-shift="VOLNO" onclick="editDay(this)"><b>15</b><small>VOLNO</small><i></i></button><button class="day morning" data-date="16.1.27" data-shift="RANNÍ" onclick="editDay(this)"><b>16</b><small>RANNÍ</small><i></i></button><button class="day morning" data-date="17.1.27" data-shift="RANNÍ" onclick="editDay(this)"><b>17</b><small>RANNÍ</small><i></i></button><button class="day morning" data-date="18.1.27" data-shift="RANNÍ" onclick="editDay(this)"><b>18</b><small>RANNÍ</small><i></i></button><button class="day free" data-date="19.1.27" data-shift="VOLNO" onclick="editDay(this)"><b>19</b><small>VOLNO</small><i></i></button><button class="day free" data-date="20.1.27" data-shift="VOLNO" onclick="editDay(this)"><b>20</b><small>VOLNO</small><i></i></button><button class="day free" data-date="21.1.27" data-shift="VOLNO" onclick="editDay(this)"><b>21</b><small>VOLNO</small><i></i></button><button class="day afternoon" data-date="22.1.27" data-shift="ODPOLEDNÍ" onclick="editDay(this)"><b>22</b><small>ODPOLEDNÍ</small><i></i></button><button class="day afternoon" data-date="23.1.27" data-shift="ODPOLEDNÍ" onclick="editDay(this)"><b>23</b><small>ODPOLEDNÍ</small><i></i></button><button class="day afternoon" data-date="24.1.27" data-shift="ODPOLEDNÍ" onclick="editDay(this)"><b>24</b><small>ODPOLEDNÍ</small><i></i></button><button class="day free" data-date="25.1.27" data-shift="VOLNO" onclick="editDay(this)"><b>25</b><small>VOLNO</small><i></i></button><button class="day morning" data-date="26.1.27" data-shift="RANNÍ" onclick="editDay(this)"><b>26</b><small>RANNÍ</small><i></i></button><button class="day morning" data-date="27.1.27" data-shift="RANNÍ" onclick="editDay(this)"><b>27</b><small>RANNÍ</small><i></i></button><button class="day morning" data-date="28.1.27" data-shift="RANNÍ" onclick="editDay(this)"><b>28</b><small>RANNÍ</small><i></i></button><button class="day morning" data-date="29.1.27" data-shift="RANNÍ" onclick="editDay(this)"><b>29</b><small>RANNÍ</small><i></i></button><button class="day free" data-date="30.1.27" data-shift="VOLNO" onclick="editDay(this)"><b>30</b><small>VOLNO</small><i></i></button><button class="day night" data-date="31.1.27" data-shift="NOČNÍ" onclick="editDay(this)"><b>31</b><small>NOČNÍ</small><i></i></button></div></section><section class="month" id="m2"><h2>Únor 2027</h2><div class="week"><span>Po</span><span>Út</span><span>St</span><span>Čt</span><span>Pá</span><span>So</span><span>Ne</span></div><div class="grid"><button class="day night" data-date="1.2.27" data-shift="NOČNÍ" onclick="editDay(this)"><b>1</b><small>NOČNÍ</small><i></i></button><button class="day night" data-date="2.2.27" data-shift="NOČNÍ" onclick="editDay(this)"><b>2</b><small>NOČNÍ</small><i></i></button><button class="day night" data-date="3.2.27" data-shift="NOČNÍ" onclick="editDay(this)"><b>3</b><small>NOČNÍ</small><i></i></button><button class="day night" data-date="4.2.27" data-shift="NOČNÍ" onclick="editDay(this)"><b>4</b><small>NOČNÍ</small><i></i></button><button class="day night" data-date="5.2.27" data-shift="NOČNÍ" onclick="editDay(this)"><b>5</b><small>NOČNÍ</small><i></i></button><button class="day free" data-date="6.2.27" data-shift="VOLNO" onclick="editDay(this)"><b>6</b><small>VOLNO</small><i></i></button><button class="day free" data-date="7.2.27" data-shift="VOLNO" onclick="editDay(this)"><b>7</b><small>VOLNO</small><i></i></button><button class="day afternoon" data-date="8.2.27" data-shift="ODPOLEDNÍ" onclick="editDay(this)"><b>8</b><small>ODPOLEDNÍ</small><i></i></button><button class="day afternoon" data-date="9.2.27" data-shift="ODPOLEDNÍ" onclick="editDay(this)"><b>9</b><small>ODPOLEDNÍ</small><i></i></button><button class="day afternoon" data-date="10.2.27" data-shift="ODPOLEDNÍ" onclick="editDay(this)"><b>10</b><small>ODPOLEDNÍ</small><i></i></button><button class="day afternoon" data-date="11.2.27" data-shift="ODPOLEDNÍ" onclick="editDay(this)"><b>11</b><small>ODPOLEDNÍ</small><i></i></button><button class="day free" data-date="12.2.27" data-shift="VOLNO" onclick="editDay(this)"><b>12</b><small>VOLNO</small><i></i></button><button class="day morning" data-date="13.2.27" data-shift="RANNÍ" onclick="editDay(this)"><b>13</b><small>RANNÍ</small><i></i></button><button class="day morning" data-date="14.2.27" data-shift="RANNÍ" onclick="editDay(this)"><b>14</b><small>RANNÍ</small><i></i></button><button class="day morning" data-date="15.2.27" data-shift="RANNÍ" onclick="editDay(this)"><b>15</b><small>RANNÍ</small><i></i></button><button class="day free" data-date="16.2.27" data-shift="VOLNO" onclick="editDay(this)"><b>16</b><small>VOLNO</small><i></i></button><button class="day free" data-date="17.2.27" data-shift="VOLNO" onclick="editDay(this)"><b>17</b><small>VOLNO</small><i></i></button><button class="day free" data-date="18.2.27" data-shift="VOLNO" onclick="editDay(this)"><b>18</b><small>VOLNO</small><i></i></button><button class="day afternoon" data-date="19.2.27" data-shift="ODPOLEDNÍ" onclick="editDay(this)"><b>19</b><small>ODPOLEDNÍ</small><i></i></button><button class="day afternoon" data-date="20.2.27" data-shift="ODPOLEDNÍ" onclick="editDay(this)"><b>20</b><small>ODPOLEDNÍ</small><i></i></button><button class="day afternoon" data-date="21.2.27" data-shift="ODPOLEDNÍ" onclick="editDay(this)"><b>21</b><small>ODPOLEDNÍ</small><i></i></button><button class="day free" data-date="22.2.27" data-shift="VOLNO" onclick="editDay(this)"><b>22</b><small>VOLNO</small><i></i></button><button class="day morning" data-date="23.2.27" data-shift="RANNÍ" onclick="editDay(this)"><b>23</b><small>RANNÍ</small><i></i></button><button class="day morning" data-date="24.2.27" data-shift="RANNÍ" onclick="editDay(this)"><b>24</b><small>RANNÍ</small><i></i></button><button class="day morning" data-date="25.2.27" data-shift="RANNÍ" onclick="editDay(this)"><b>25</b><small>RANNÍ</small><i></i></button><button class="day morning" data-date="26.2.27" data-shift="RANNÍ" onclick="editDay(this)"><b>26</b><small>RANNÍ</small><i></i></button><button class="day free" data-date="27.2.27" data-shift="VOLNO" onclick="editDay(this)"><b>27</b><small>VOLNO</small><i></i></button><button class="day night" data-date="28.2.27" data-shift="NOČNÍ" onclick="editDay(this)"><b>28</b><small>NOČNÍ</small><i></i></button></div></section><section class="month" id="m3"><h2>Březen 2027</h2><div class="week"><span>Po</span><span>Út</span><span>St</span><span>Čt</span><span>Pá</span><span>So</span><span>Ne</span></div><div class="grid"><button class="day night" data-date="1.3.27" data-shift="NOČNÍ" onclick="editDay(this)"><b>1</b><small>NOČNÍ</small><i></i></button><button class="day night" data-date="2.3.27" data-shift="NOČNÍ" onclick="editDay(this)"><b>2</b><small>NOČNÍ</small><i></i></button><button class="day night" data-date="3.3.27" data-shift="NOČNÍ" onclick="editDay(this)"><b>3</b><small>NOČNÍ</small><i></i></button><button class="day night" data-date="4.3.27" data-shift="NOČNÍ" onclick="editDay(this)"><b>4</b><small>NOČNÍ</small><i></i></button><button class="day night" data-date="5.3.27" data-shift="NOČNÍ" onclick="editDay(this)"><b>5</b><small>NOČNÍ</small><i></i></button><button class="day free" data-date="6.3.27" data-shift="VOLNO" onclick="editDay(this)"><b>6</b><small>VOLNO</small><i></i></button><button class="day free" data-date="7.3.27" data-shift="VOLNO" onclick="editDay(this)"><b>7</b><small>VOLNO</small><i></i></button><button class="day afternoon" data-date="8.3.27" data-shift="ODPOLEDNÍ" onclick="editDay(this)"><b>8</b><small>ODPOLEDNÍ</small><i></i></button><button class="day afternoon" data-date="9.3.27" data-shift="ODPOLEDNÍ" onclick="editDay(this)"><b>9</b><small>ODPOLEDNÍ</small><i></i></button><button class="day afternoon" data-date="10.3.27" data-shift="ODPOLEDNÍ" onclick="editDay(this)"><b>10</b><small>ODPOLEDNÍ</small><i></i></button><button class="day afternoon" data-date="11.3.27" data-shift="ODPOLEDNÍ" onclick="editDay(this)"><b>11</b><small>ODPOLEDNÍ</small><i></i></button><button class="day free" data-date="12.3.27" data-shift="VOLNO" onclick="editDay(this)"><b>12</b><small>VOLNO</small><i></i></button><button class="day morning" data-date="13.3.27" data-shift="RANNÍ" onclick="editDay(this)"><b>13</b><small>RANNÍ</small><i></i></button><button class="day morning" data-date="14.3.27" data-shift="RANNÍ" onclick="editDay(this)"><b>14</b><small>RANNÍ</small><i></i></button><button class="day morning" data-date="15.3.27" data-shift="RANNÍ" onclick="editDay(this)"><b>15</b><small>RANNÍ</small><i></i></button><button class="day free" data-date="16.3.27" data-shift="VOLNO" onclick="editDay(this)"><b>16</b><small>VOLNO</small><i></i></button><button class="day free" data-date="17.3.27" data-shift="VOLNO" onclick="editDay(this)"><b>17</b><small>VOLNO</small><i></i></button><button class="day free" data-date="18.3.27" data-shift="VOLNO" onclick="editDay(this)"><b>18</b><small>VOLNO</small><i></i></button><button class="day afternoon" data-date="19.3.27" data-shift="ODPOLEDNÍ" onclick="editDay(this)"><b>19</b><small>ODPOLEDNÍ</small><i></i></button><button class="day afternoon" data-date="20.3.27" data-shift="ODPOLEDNÍ" onclick="editDay(this)"><b>20</b><small>ODPOLEDNÍ</small><i></i></button><button class="day afternoon" data-date="21.3.27" data-shift="ODPOLEDNÍ" onclick="editDay(this)"><b>21</b><small>ODPOLEDNÍ</small><i></i></button><button class="day free" data-date="22.3.27" data-shift="VOLNO" onclick="editDay(this)"><b>22</b><small>VOLNO</small><i></i></button><button class="day morning" data-date="23.3.27" data-shift="RANNÍ" onclick="editDay(this)"><b>23</b><small>RANNÍ</small><i></i></button><button class="day morning" data-date="24.3.27" data-shift="RANNÍ" onclick="editDay(this)"><b>24</b><small>RANNÍ</small><i></i></button><button class="day morning" data-date="25.3.27" data-shift="RANNÍ" onclick="editDay(this)"><b>25</b><small>RANNÍ</small><i></i></button><button class="day morning holiday" data-date="26.3.27" data-shift="RANNÍ" onclick="editDay(this)"><b>26</b><small>RANNÍ</small><em>SVÁTEK</em><i></i></button><button class="day free" data-date="27.3.27" data-shift="VOLNO" onclick="editDay(this)"><b>27</b><small>VOLNO</small><i></i></button><button class="day night" data-date="28.3.27" data-shift="NOČNÍ" onclick="editDay(this)"><b>28</b><small>NOČNÍ</small><i></i></button><button class="day night holiday" data-date="29.3.27" data-shift="NOČNÍ" onclick="editDay(this)"><b>29</b><small>NOČNÍ</small><em>SVÁTEK</em><i></i></button><button class="day night" data-date="30.3.27" data-shift="NOČNÍ" onclick="editDay(this)"><b>30</b><small>NOČNÍ</small><i></i></button><button class="day night" data-date="31.3.27" data-shift="NOČNÍ" onclick="editDay(this)"><b>31</b><small>NOČNÍ</small><i></i></button></div></section><section class="month" id="m4"><h2>Duben 2027</h2><div class="week"><span>Po</span><span>Út</span><span>St</span><span>Čt</span><span>Pá</span><span>So</span><span>Ne</span></div><div class="grid"><div class="blank"></div><div class="blank"></div><div class="blank"></div><button class="day night" data-date="1.4.27" data-shift="NOČNÍ" onclick="editDay(this)"><b>1</b><small>NOČNÍ</small><i></i></button><button class="day night" data-date="2.4.27" data-shift="NOČNÍ" onclick="editDay(this)"><b>2</b><small>NOČNÍ</small><i></i></button><button class="day free" data-date="3.4.27" data-shift="VOLNO" onclick="editDay(this)"><b>3</b><small>VOLNO</small><i></i></button><button class="day free" data-date="4.4.27" data-shift="VOLNO" onclick="editDay(this)"><b>4</b><small>VOLNO</small><i></i></button><button class="day afternoon" data-date="5.4.27" data-shift="ODPOLEDNÍ" onclick="editDay(this)"><b>5</b><small>ODPOLEDNÍ</small><i></i></button><button class="day afternoon" data-date="6.4.27" data-shift="ODPOLEDNÍ" onclick="editDay(this)"><b>6</b><small>ODPOLEDNÍ</small><i></i></button><button class="day afternoon" data-date="7.4.27" data-shift="ODPOLEDNÍ" onclick="editDay(this)"><b>7</b><small>ODPOLEDNÍ</small><i></i></button><button class="day afternoon" data-date="8.4.27" data-shift="ODPOLEDNÍ" onclick="editDay(this)"><b>8</b><small>ODPOLEDNÍ</small><i></i></button><button class="day free" data-date="9.4.27" data-shift="VOLNO" onclick="editDay(this)"><b>9</b><small>VOLNO</small><i></i></button><button class="day morning" data-date="10.4.27" data-shift="RANNÍ" onclick="editDay(this)"><b>10</b><small>RANNÍ</small><i></i></button><button class="day morning" data-date="11.4.27" data-shift="RANNÍ" onclick="editDay(this)"><b>11</b><small>RANNÍ</small><i></i></button><button class="day morning" data-date="12.4.27" data-shift="RANNÍ" onclick="editDay(this)"><b>12</b><small>RANNÍ</small><i></i></button><button class="day free" data-date="13.4.27" data-shift="VOLNO" onclick="editDay(this)"><b>13</b><small>VOLNO</small><i></i></button><button class="day free" data-date="14.4.27" data-shift="VOLNO" onclick="editDay(this)"><b>14</b><small>VOLNO</small><i></i></button><button class="day free" data-date="15.4.27" data-shift="VOLNO" onclick="editDay(this)"><b>15</b><small>VOLNO</small><i></i></button><button class="day afternoon" data-date="16.4.27" data-shift="ODPOLEDNÍ" onclick="editDay(this)"><b>16</b><small>ODPOLEDNÍ</small><i></i></button><button class="day afternoon" data-date="17.4.27" data-shift="ODPOLEDNÍ" onclick="editDay(this)"><b>17</b><small>ODPOLEDNÍ</small><i></i></button><button class="day afternoon" data-date="18.4.27" data-shift="ODPOLEDNÍ" onclick="editDay(this)"><b>18</b><small>ODPOLEDNÍ</small><i></i></button><button class="day free" data-date="19.4.27" data-shift="VOLNO" onclick="editDay(this)"><b>19</b><small>VOLNO</small><i></i></button><button class="day morning" data-date="20.4.27" data-shift="RANNÍ" onclick="editDay(this)"><b>20</b><small>RANNÍ</small><i></i></button><button class="day morning" data-date="21.4.27" data-shift="RANNÍ" onclick="editDay(this)"><b>21</b><small>RANNÍ</small><i></i></button><button class="day morning" data-date="22.4.27" data-shift="RANNÍ" onclick="editDay(this)"><b>22</b><small>RANNÍ</small><i></i></button><button class="day morning" data-date="23.4.27" data-shift="RANNÍ" onclick="editDay(this)"><b>23</b><small>RANNÍ</small><i></i></button><button class="day free" data-date="24.4.27" data-shift="VOLNO" onclick="editDay(this)"><b>24</b><small>VOLNO</small><i></i></button><button class="day night" data-date="25.4.27" data-shift="NOČNÍ" onclick="editDay(this)"><b>25</b><small>NOČNÍ</small><i></i></button><button class="day night" data-date="26.4.27" data-shift="NOČNÍ" onclick="editDay(this)"><b>26</b><small>NOČNÍ</small><i></i></button><button class="day night" data-date="27.4.27" data-shift="NOČNÍ" onclick="editDay(this)"><b>27</b><small>NOČNÍ</small><i></i></button><button class="day night" data-date="28.4.27" data-shift="NOČNÍ" onclick="editDay(this)"><b>28</b><small>NOČNÍ</small><i></i></button><button class="day night" data-date="29.4.27" data-shift="NOČNÍ" onclick="editDay(this)"><b>29</b><small>NOČNÍ</small><i></i></button><button class="day night" data-date="30.4.27" data-shift="NOČNÍ" onclick="editDay(this)"><b>30</b><small>NOČNÍ</small><i></i></button></div></section><section class="month" id="m5"><h2>Květen 2027</h2><div class="week"><span>Po</span><span>Út</span><span>St</span><span>Čt</span><span>Pá</span><span>So</span><span>Ne</span></div><div class="grid"><div class="blank"></div><div class="blank"></div><div class="blank"></div><div class="blank"></div><div class="blank"></div><button class="day free holiday" data-date="1.5.27" data-shift="VOLNO" onclick="editDay(this)"><b>1</b><small>VOLNO</small><em>SVÁTEK</em><i></i></button><button class="day free" data-date="2.5.27" data-shift="VOLNO" onclick="editDay(this)"><b>2</b><small>VOLNO</small><i></i></button><button class="day afternoon" data-date="3.5.27" data-shift="ODPOLEDNÍ" onclick="editDay(this)"><b>3</b><small>ODPOLEDNÍ</small><i></i></button><button class="day afternoon" data-date="4.5.27" data-shift="ODPOLEDNÍ" onclick="editDay(this)"><b>4</b><small>ODPOLEDNÍ</small><i></i></button><button class="day afternoon" data-date="5.5.27" data-shift="ODPOLEDNÍ" onclick="editDay(this)"><b>5</b><small>ODPOLEDNÍ</small><i></i></button><button class="day afternoon" data-date="6.5.27" data-shift="ODPOLEDNÍ" onclick="editDay(this)"><b>6</b><small>ODPOLEDNÍ</small><i></i></button><button class="day free" data-date="7.5.27" data-shift="VOLNO" onclick="editDay(this)"><b>7</b><small>VOLNO</small><i></i></button><button class="day morning holiday" data-date="8.5.27" data-shift="RANNÍ" onclick="editDay(this)"><b>8</b><small>RANNÍ</small><em>SVÁTEK</em><i></i></button><button class="day morning" data-date="9.5.27" data-shift="RANNÍ" onclick="editDay(this)"><b>9</b><small>RANNÍ</small><i></i></button><button class="day morning" data-date="10.5.27" data-shift="RANNÍ" onclick="editDay(this)"><b>10</b><small>RANNÍ</small><i></i></button><button class="day free" data-date="11.5.27" data-shift="VOLNO" onclick="editDay(this)"><b>11</b><small>VOLNO</small><i></i></button><button class="day free" data-date="12.5.27" data-shift="VOLNO" onclick="editDay(this)"><b>12</b><small>VOLNO</small><i></i></button><button class="day free" data-date="13.5.27" data-shift="VOLNO" onclick="editDay(this)"><b>13</b><small>VOLNO</small><i></i></button><button class="day afternoon" data-date="14.5.27" data-shift="ODPOLEDNÍ" onclick="editDay(this)"><b>14</b><small>ODPOLEDNÍ</small><i></i></button><button class="day afternoon" data-date="15.5.27" data-shift="ODPOLEDNÍ" onclick="editDay(this)"><b>15</b><small>ODPOLEDNÍ</small><i></i></button><button class="day afternoon" data-date="16.5.27" data-shift="ODPOLEDNÍ" onclick="editDay(this)"><b>16</b><small>ODPOLEDNÍ</small><i></i></button><button class="day free" data-date="17.5.27" data-shift="VOLNO" onclick="editDay(this)"><b>17</b><small>VOLNO</small><i></i></button><button class="day morning" data-date="18.5.27" data-shift="RANNÍ" onclick="editDay(this)"><b>18</b><small>RANNÍ</small><i></i></button><button class="day morning" data-date="19.5.27" data-shift="RANNÍ" onclick="editDay(this)"><b>19</b><small>RANNÍ</small><i></i></button><button class="day morning" data-date="20.5.27" data-shift="RANNÍ" onclick="editDay(this)"><b>20</b><small>RANNÍ</small><i></i></button><button class="day morning" data-date="21.5.27" data-shift="RANNÍ" onclick="editDay(this)"><b>21</b><small>RANNÍ</small><i></i></button><button class="day free" data-date="22.5.27" data-shift="VOLNO" onclick="editDay(this)"><b>22</b><small>VOLNO</small><i></i></button><button class="day night" data-date="23.5.27" data-shift="NOČNÍ" onclick="editDay(this)"><b>23</b><small>NOČNÍ</small><i></i></button><button class="day night" data-date="24.5.27" data-shift="NOČNÍ" onclick="editDay(this)"><b>24</b><small>NOČNÍ</small><i></i></button><button class="day night" data-date="25.5.27" data-shift="NOČNÍ" onclick="editDay(this)"><b>25</b><small>NOČNÍ</small><i></i></button><button class="day night" data-date="26.5.27" data-shift="NOČNÍ" onclick="editDay(this)"><b>26</b><small>NOČNÍ</small><i></i></button><button class="day night" data-date="27.5.27" data-shift="NOČNÍ" onclick="editDay(this)"><b>27</b><small>NOČNÍ</small><i></i></button><button class="day night" data-date="28.5.27" data-shift="NOČNÍ" onclick="editDay(this)"><b>28</b><small>NOČNÍ</small><i></i></button><button class="day free" data-date="29.5.27" data-shift="VOLNO" onclick="editDay(this)"><b>29</b><small>VOLNO</small><i></i></button><button class="day free" data-date="30.5.27" data-shift="VOLNO" onclick="editDay(this)"><b>30</b><small>VOLNO</small><i></i></button><button class="day afternoon" data-date="31.5.27" data-shift="ODPOLEDNÍ" onclick="editDay(this)"><b>31</b><small>ODPOLEDNÍ</small><i></i></button></div></section><section class="month" id="m6"><h2>Červen 2027</h2><div class="week"><span>Po</span><span>Út</span><span>St</span><span>Čt</span><span>Pá</span><span>So</span><span>Ne</span></div><div class="grid"><div class="blank"></div><button class="day afternoon" data-date="1.6.27" data-shift="ODPOLEDNÍ" onclick="editDay(this)"><b>1</b><small>ODPOLEDNÍ</small><i></i></button><button class="day afternoon" data-date="2.6.27" data-shift="ODPOLEDNÍ" onclick="editDay(this)"><b>2</b><small>ODPOLEDNÍ</small><i></i></button><button class="day afternoon" data-date="3.6.27" data-shift="ODPOLEDNÍ" onclick="editDay(this)"><b>3</b><small>ODPOLEDNÍ</small><i></i></button><button class="day free" data-date="4.6.27" data-shift="VOLNO" onclick="editDay(this)"><b>4</b><small>VOLNO</small><i></i></button><button class="day morning" data-date="5.6.27" data-shift="RANNÍ" onclick="editDay(this)"><b>5</b><small>RANNÍ</small><i></i></button><button class="day morning" data-date="6.6.27" data-shift="RANNÍ" onclick="editDay(this)"><b>6</b><small>RANNÍ</small><i></i></button><button class="day morning" data-date="7.6.27" data-shift="RANNÍ" onclick="editDay(this)"><b>7</b><small>RANNÍ</small><i></i></button><button class="day free" data-date="8.6.27" data-shift="VOLNO" onclick="editDay(this)"><b>8</b><small>VOLNO</small><i></i></button><button class="day free" data-date="9.6.27" data-shift="VOLNO" onclick="editDay(this)"><b>9</b><small>VOLNO</small><i></i></button><button class="day free" data-date="10.6.27" data-shift="VOLNO" onclick="editDay(this)"><b>10</b><small>VOLNO</small><i></i></button><button class="day afternoon" data-date="11.6.27" data-shift="ODPOLEDNÍ" onclick="editDay(this)"><b>11</b><small>ODPOLEDNÍ</small><i></i></button><button class="day afternoon" data-date="12.6.27" data-shift="ODPOLEDNÍ" onclick="editDay(this)"><b>12</b><small>ODPOLEDNÍ</small><i></i></button><button class="day afternoon" data-date="13.6.27" data-shift="ODPOLEDNÍ" onclick="editDay(this)"><b>13</b><small>ODPOLEDNÍ</small><i></i></button><button class="day free" data-date="14.6.27" data-shift="VOLNO" onclick="editDay(this)"><b>14</b><small>VOLNO</small><i></i></button><button class="day morning" data-date="15.6.27" data-shift="RANNÍ" onclick="editDay(this)"><b>15</b><small>RANNÍ</small><i></i></button><button class="day morning" data-date="16.6.27" data-shift="RANNÍ" onclick="editDay(this)"><b>16</b><small>RANNÍ</small><i></i></button><button class="day morning" data-date="17.6.27" data-shift="RANNÍ" onclick="editDay(this)"><b>17</b><small>RANNÍ</small><i></i></button><button class="day morning" data-date="18.6.27" data-shift="RANNÍ" onclick="editDay(this)"><b>18</b><small>RANNÍ</small><i></i></button><button class="day free" data-date="19.6.27" data-shift="VOLNO" onclick="editDay(this)"><b>19</b><small>VOLNO</small><i></i></button><button class="day night" data-date="20.6.27" data-shift="NOČNÍ" onclick="editDay(this)"><b>20</b><small>NOČNÍ</small><i></i></button><button class="day night" data-date="21.6.27" data-shift="NOČNÍ" onclick="editDay(this)"><b>21</b><small>NOČNÍ</small><i></i></button><button class="day night" data-date="22.6.27" data-shift="NOČNÍ" onclick="editDay(this)"><b>22</b><small>NOČNÍ</small><i></i></button><button class="day night" data-date="23.6.27" data-shift="NOČNÍ" onclick="editDay(this)"><b>23</b><small>NOČNÍ</small><i></i></button><button class="day night" data-date="24.6.27" data-shift="NOČNÍ" onclick="editDay(this)"><b>24</b><small>NOČNÍ</small><i></i></button><button class="day night" data-date="25.6.27" data-shift="NOČNÍ" onclick="editDay(this)"><b>25</b><small>NOČNÍ</small><i></i></button><button class="day free" data-date="26.6.27" data-shift="VOLNO" onclick="editDay(this)"><b>26</b><small>VOLNO</small><i></i></button><button class="day free" data-date="27.6.27" data-shift="VOLNO" onclick="editDay(this)"><b>27</b><small>VOLNO</small><i></i></button><button class="day afternoon" data-date="28.6.27" data-shift="ODPOLEDNÍ" onclick="editDay(this)"><b>28</b><small>ODPOLEDNÍ</small><i></i></button><button class="day afternoon" data-date="29.6.27" data-shift="ODPOLEDNÍ" onclick="editDay(this)"><b>29</b><small>ODPOLEDNÍ</small><i></i></button><button class="day afternoon" data-date="30.6.27" data-shift="ODPOLEDNÍ" onclick="editDay(this)"><b>30</b><small>ODPOLEDNÍ</small><i></i></button></div></section><section class="month" id="m7"><h2>Červenec 2027</h2><div class="week"><span>Po</span><span>Út</span><span>St</span><span>Čt</span><span>Pá</span><span>So</span><span>Ne</span></div><div class="grid"><div class="blank"></div><div class="blank"></div><div class="blank"></div><button class="day afternoon" data-date="1.7.27" data-shift="ODPOLEDNÍ" onclick="editDay(this)"><b>1</b><small>ODPOLEDNÍ</small><i></i></button><button class="day free" data-date="2.7.27" data-shift="VOLNO" onclick="editDay(this)"><b>2</b><small>VOLNO</small><i></i></button><button class="day morning" data-date="3.7.27" data-shift="RANNÍ" onclick="editDay(this)"><b>3</b><small>RANNÍ</small><i></i></button><button class="day morning" data-date="4.7.27" data-shift="RANNÍ" onclick="editDay(this)"><b>4</b><small>RANNÍ</small><i></i></button><button class="day morning holiday" data-date="5.7.27" data-shift="RANNÍ" onclick="editDay(this)"><b>5</b><small>RANNÍ</small><em>SVÁTEK</em><i></i></button><button class="day free holiday" data-date="6.7.27" data-shift="VOLNO" onclick="editDay(this)"><b>6</b><small>VOLNO</small><em>SVÁTEK</em><i></i></button><button class="day free" data-date="7.7.27" data-shift="VOLNO" onclick="editDay(this)"><b>7</b><small>VOLNO</small><i></i></button><button class="day free" data-date="8.7.27" data-shift="VOLNO" onclick="editDay(this)"><b>8</b><small>VOLNO</small><i></i></button><button class="day afternoon" data-date="9.7.27" data-shift="ODPOLEDNÍ" onclick="editDay(this)"><b>9</b><small>ODPOLEDNÍ</small><i></i></button><button class="day afternoon" data-date="10.7.27" data-shift="ODPOLEDNÍ" onclick="editDay(this)"><b>10</b><small>ODPOLEDNÍ</small><i></i></button><button class="day afternoon" data-date="11.7.27" data-shift="ODPOLEDNÍ" onclick="editDay(this)"><b>11</b><small>ODPOLEDNÍ</small><i></i></button><button class="day free" data-date="12.7.27" data-shift="VOLNO" onclick="editDay(this)"><b>12</b><small>VOLNO</small><i></i></button><button class="day morning" data-date="13.7.27" data-shift="RANNÍ" onclick="editDay(this)"><b>13</b><small>RANNÍ</small><i></i></button><button class="day morning" data-date="14.7.27" data-shift="RANNÍ" onclick="editDay(this)"><b>14</b><small>RANNÍ</small><i></i></button><button class="day morning" data-date="15.7.27" data-shift="RANNÍ" onclick="editDay(this)"><b>15</b><small>RANNÍ</small><i></i></button><button class="day morning" data-date="16.7.27" data-shift="RANNÍ" onclick="editDay(this)"><b>16</b><small>RANNÍ</small><i></i></button><button class="day free" data-date="17.7.27" data-shift="VOLNO" onclick="editDay(this)"><b>17</b><small>VOLNO</small><i></i></button><button class="day night" data-date="18.7.27" data-shift="NOČNÍ" onclick="editDay(this)"><b>18</b><small>NOČNÍ</small><i></i></button><button class="day night" data-date="19.7.27" data-shift="NOČNÍ" onclick="editDay(this)"><b>19</b><small>NOČNÍ</small><i></i></button><button class="day night" data-date="20.7.27" data-shift="NOČNÍ" onclick="editDay(this)"><b>20</b><small>NOČNÍ</small><i></i></button><button class="day night" data-date="21.7.27" data-shift="NOČNÍ" onclick="editDay(this)"><b>21</b><small>NOČNÍ</small><i></i></button><button class="day night" data-date="22.7.27" data-shift="NOČNÍ" onclick="editDay(this)"><b>22</b><small>NOČNÍ</small><i></i></button><button class="day night" data-date="23.7.27" data-shift="NOČNÍ" onclick="editDay(this)"><b>23</b><small>NOČNÍ</small><i></i></button><button class="day free" data-date="24.7.27" data-shift="VOLNO" onclick="editDay(this)"><b>24</b><small>VOLNO</small><i></i></button><button class="day free" data-date="25.7.27" data-shift="VOLNO" onclick="editDay(this)"><b>25</b><small>VOLNO</small><i></i></button><button class="day afternoon" data-date="26.7.27" data-shift="ODPOLEDNÍ" onclick="editDay(this)"><b>26</b><small>ODPOLEDNÍ</small><i></i></button><button class="day afternoon" data-date="27.7.27" data-shift="ODPOLEDNÍ" onclick="editDay(this)"><b>27</b><small>ODPOLEDNÍ</small><i></i></button><button class="day afternoon" data-date="28.7.27" data-shift="ODPOLEDNÍ" onclick="editDay(this)"><b>28</b><small>ODPOLEDNÍ</small><i></i></button><button class="day afternoon" data-date="29.7.27" data-shift="ODPOLEDNÍ" onclick="editDay(this)"><b>29</b><small>ODPOLEDNÍ</small><i></i></button><button class="day free" data-date="30.7.27" data-shift="VOLNO" onclick="editDay(this)"><b>30</b><small>VOLNO</small><i></i></button><button class="day morning" data-date="31.7.27" data-shift="RANNÍ" onclick="editDay(this)"><b>31</b><small>RANNÍ</small><i></i></button></div></section><section class="month" id="m8"><h2>Srpen 2027</h2><div class="week"><span>Po</span><span>Út</span><span>St</span><span>Čt</span><span>Pá</span><span>So</span><span>Ne</span></div><div class="grid"><div class="blank"></div><div class="blank"></div><div class="blank"></div><div class="blank"></div><div class="blank"></div><div class="blank"></div><button class="day morning" data-date="1.8.27" data-shift="RANNÍ" onclick="editDay(this)"><b>1</b><small>RANNÍ</small><i></i></button><button class="day morning" data-date="2.8.27" data-shift="RANNÍ" onclick="editDay(this)"><b>2</b><small>RANNÍ</small><i></i></button><button class="day free" data-date="3.8.27" data-shift="VOLNO" onclick="editDay(this)"><b>3</b><small>VOLNO</small><i></i></button><button class="day free" data-date="4.8.27" data-shift="VOLNO" onclick="editDay(this)"><b>4</b><small>VOLNO</small><i></i></button><button class="day free" data-date="5.8.27" data-shift="VOLNO" onclick="editDay(this)"><b>5</b><small>VOLNO</small><i></i></button><button class="day afternoon" data-date="6.8.27" data-shift="ODPOLEDNÍ" onclick="editDay(this)"><b>6</b><small>ODPOLEDNÍ</small><i></i></button><button class="day afternoon" data-date="7.8.27" data-shift="ODPOLEDNÍ" onclick="editDay(this)"><b>7</b><small>ODPOLEDNÍ</small><i></i></button><button class="day afternoon" data-date="8.8.27" data-shift="ODPOLEDNÍ" onclick="editDay(this)"><b>8</b><small>ODPOLEDNÍ</small><i></i></button><button class="day free" data-date="9.8.27" data-shift="VOLNO" onclick="editDay(this)"><b>9</b><small>VOLNO</small><i></i></button><button class="day morning" data-date="10.8.27" data-shift="RANNÍ" onclick="editDay(this)"><b>10</b><small>RANNÍ</small><i></i></button><button class="day morning" data-date="11.8.27" data-shift="RANNÍ" onclick="editDay(this)"><b>11</b><small>RANNÍ</small><i></i></button><button class="day morning" data-date="12.8.27" data-shift="RANNÍ" onclick="editDay(this)"><b>12</b><small>RANNÍ</small><i></i></button><button class="day morning" data-date="13.8.27" data-shift="RANNÍ" onclick="editDay(this)"><b>13</b><small>RANNÍ</small><i></i></button><button class="day free" data-date="14.8.27" data-shift="VOLNO" onclick="editDay(this)"><b>14</b><small>VOLNO</small><i></i></button><button class="day night" data-date="15.8.27" data-shift="NOČNÍ" onclick="editDay(this)"><b>15</b><small>NOČNÍ</small><i></i></button><button class="day night" data-date="16.8.27" data-shift="NOČNÍ" onclick="editDay(this)"><b>16</b><small>NOČNÍ</small><i></i></button><button class="day night" data-date="17.8.27" data-shift="NOČNÍ" onclick="editDay(this)"><b>17</b><small>NOČNÍ</small><i></i></button><button class="day night" data-date="18.8.27" data-shift="NOČNÍ" onclick="editDay(this)"><b>18</b><small>NOČNÍ</small><i></i></button><button class="day night" data-date="19.8.27" data-shift="NOČNÍ" onclick="editDay(this)"><b>19</b><small>NOČNÍ</small><i></i></button><button class="day night" data-date="20.8.27" data-shift="NOČNÍ" onclick="editDay(this)"><b>20</b><small>NOČNÍ</small><i></i></button><button class="day free" data-date="21.8.27" data-shift="VOLNO" onclick="editDay(this)"><b>21</b><small>VOLNO</small><i></i></button><button class="day free" data-date="22.8.27" data-shift="VOLNO" onclick="editDay(this)"><b>22</b><small>VOLNO</small><i></i></button><button class="day afternoon" data-date="23.8.27" data-shift="ODPOLEDNÍ" onclick="editDay(this)"><b>23</b><small>ODPOLEDNÍ</small><i></i></button><button class="day afternoon" data-date="24.8.27" data-shift="ODPOLEDNÍ" onclick="editDay(this)"><b>24</b><small>ODPOLEDNÍ</small><i></i></button><button class="day afternoon" data-date="25.8.27" data-shift="ODPOLEDNÍ" onclick="editDay(this)"><b>25</b><small>ODPOLEDNÍ</small><i></i></button><button class="day afternoon" data-date="26.8.27" data-shift="ODPOLEDNÍ" onclick="editDay(this)"><b>26</b><small>ODPOLEDNÍ</small><i></i></button><button class="day free" data-date="27.8.27" data-shift="VOLNO" onclick="editDay(this)"><b>27</b><small>VOLNO</small><i></i></button><button class="day morning" data-date="28.8.27" data-shift="RANNÍ" onclick="editDay(this)"><b>28</b><small>RANNÍ</small><i></i></button><button class="day morning" data-date="29.8.27" data-shift="RANNÍ" onclick="editDay(this)"><b>29</b><small>RANNÍ</small><i></i></button><button class="day morning" data-date="30.8.27" data-shift="RANNÍ" onclick="editDay(this)"><b>30</b><small>RANNÍ</small><i></i></button><button class="day free" data-date="31.8.27" data-shift="VOLNO" onclick="editDay(this)"><b>31</b><small>VOLNO</small><i></i></button></div></section><section class="month" id="m9"><h2>Září 2027</h2><div class="week"><span>Po</span><span>Út</span><span>St</span><span>Čt</span><span>Pá</span><span>So</span><span>Ne</span></div><div class="grid"><div class="blank"></div><div class="blank"></div><button class="day free" data-date="1.9.27" data-shift="VOLNO" onclick="editDay(this)"><b>1</b><small>VOLNO</small><i></i></button><button class="day free" data-date="2.9.27" data-shift="VOLNO" onclick="editDay(this)"><b>2</b><small>VOLNO</small><i></i></button><button class="day afternoon" data-date="3.9.27" data-shift="ODPOLEDNÍ" onclick="editDay(this)"><b>3</b><small>ODPOLEDNÍ</small><i></i></button><button class="day afternoon" data-date="4.9.27" data-shift="ODPOLEDNÍ" onclick="editDay(this)"><b>4</b><small>ODPOLEDNÍ</small><i></i></button><button class="day afternoon" data-date="5.9.27" data-shift="ODPOLEDNÍ" onclick="editDay(this)"><b>5</b><small>ODPOLEDNÍ</small><i></i></button><button class="day free" data-date="6.9.27" data-shift="VOLNO" onclick="editDay(this)"><b>6</b><small>VOLNO</small><i></i></button><button class="day morning" data-date="7.9.27" data-shift="RANNÍ" onclick="editDay(this)"><b>7</b><small>RANNÍ</small><i></i></button><button class="day morning" data-date="8.9.27" data-shift="RANNÍ" onclick="editDay(this)"><b>8</b><small>RANNÍ</small><i></i></button><button class="day morning" data-date="9.9.27" data-shift="RANNÍ" onclick="editDay(this)"><b>9</b><small>RANNÍ</small><i></i></button><button class="day morning" data-date="10.9.27" data-shift="RANNÍ" onclick="editDay(this)"><b>10</b><small>RANNÍ</small><i></i></button><button class="day free" data-date="11.9.27" data-shift="VOLNO" onclick="editDay(this)"><b>11</b><small>VOLNO</small><i></i></button><button class="day night" data-date="12.9.27" data-shift="NOČNÍ" onclick="editDay(this)"><b>12</b><small>NOČNÍ</small><i></i></button><button class="day night" data-date="13.9.27" data-shift="NOČNÍ" onclick="editDay(this)"><b>13</b><small>NOČNÍ</small><i></i></button><button class="day night" data-date="14.9.27" data-shift="NOČNÍ" onclick="editDay(this)"><b>14</b><small>NOČNÍ</small><i></i></button><button class="day night" data-date="15.9.27" data-shift="NOČNÍ" onclick="editDay(this)"><b>15</b><small>NOČNÍ</small><i></i></button><button class="day night" data-date="16.9.27" data-shift="NOČNÍ" onclick="editDay(this)"><b>16</b><small>NOČNÍ</small><i></i></button><button class="day night" data-date="17.9.27" data-shift="NOČNÍ" onclick="editDay(this)"><b>17</b><small>NOČNÍ</small><i></i></button><button class="day free" data-date="18.9.27" data-shift="VOLNO" onclick="editDay(this)"><b>18</b><small>VOLNO</small><i></i></button><button class="day free" data-date="19.9.27" data-shift="VOLNO" onclick="editDay(this)"><b>19</b><small>VOLNO</small><i></i></button><button class="day afternoon" data-date="20.9.27" data-shift="ODPOLEDNÍ" onclick="editDay(this)"><b>20</b><small>ODPOLEDNÍ</small><i></i></button><button class="day afternoon" data-date="21.9.27" data-shift="ODPOLEDNÍ" onclick="editDay(this)"><b>21</b><small>ODPOLEDNÍ</small><i></i></button><button class="day afternoon" data-date="22.9.27" data-shift="ODPOLEDNÍ" onclick="editDay(this)"><b>22</b><small>ODPOLEDNÍ</small><i></i></button><button class="day afternoon" data-date="23.9.27" data-shift="ODPOLEDNÍ" onclick="editDay(this)"><b>23</b><small>ODPOLEDNÍ</small><i></i></button><button class="day free" data-date="24.9.27" data-shift="VOLNO" onclick="editDay(this)"><b>24</b><small>VOLNO</small><i></i></button><button class="day morning" data-date="25.9.27" data-shift="RANNÍ" onclick="editDay(this)"><b>25</b><small>RANNÍ</small><i></i></button><button class="day morning" data-date="26.9.27" data-shift="RANNÍ" onclick="editDay(this)"><b>26</b><small>RANNÍ</small><i></i></button><button class="day morning" data-date="27.9.27" data-shift="RANNÍ" onclick="editDay(this)"><b>27</b><small>RANNÍ</small><i></i></button><button class="day free holiday" data-date="28.9.27" data-shift="VOLNO" onclick="editDay(this)"><b>28</b><small>VOLNO</small><em>SVÁTEK</em><i></i></button><button class="day free" data-date="29.9.27" data-shift="VOLNO" onclick="editDay(this)"><b>29</b><small>VOLNO</small><i></i></button><button class="day free" data-date="30.9.27" data-shift="VOLNO" onclick="editDay(this)"><b>30</b><small>VOLNO</small><i></i></button></div></section><section class="month" id="m10"><h2>Říjen 2027</h2><div class="week"><span>Po</span><span>Út</span><span>St</span><span>Čt</span><span>Pá</span><span>So</span><span>Ne</span></div><div class="grid"><div class="blank"></div><div class="blank"></div><div class="blank"></div><div class="blank"></div><button class="day afternoon" data-date="1.10.27" data-shift="ODPOLEDNÍ" onclick="editDay(this)"><b>1</b><small>ODPOLEDNÍ</small><i></i></button><button class="day afternoon" data-date="2.10.27" data-shift="ODPOLEDNÍ" onclick="editDay(this)"><b>2</b><small>ODPOLEDNÍ</small><i></i></button><button class="day afternoon" data-date="3.10.27" data-shift="ODPOLEDNÍ" onclick="editDay(this)"><b>3</b><small>ODPOLEDNÍ</small><i></i></button><button class="day free" data-date="4.10.27" data-shift="VOLNO" onclick="editDay(this)"><b>4</b><small>VOLNO</small><i></i></button><button class="day morning" data-date="5.10.27" data-shift="RANNÍ" onclick="editDay(this)"><b>5</b><small>RANNÍ</small><i></i></button><button class="day morning" data-date="6.10.27" data-shift="RANNÍ" onclick="editDay(this)"><b>6</b><small>RANNÍ</small><i></i></button><button class="day morning" data-date="7.10.27" data-shift="RANNÍ" onclick="editDay(this)"><b>7</b><small>RANNÍ</small><i></i></button><button class="day morning" data-date="8.10.27" data-shift="RANNÍ" onclick="editDay(this)"><b>8</b><small>RANNÍ</small><i></i></button><button class="day free" data-date="9.10.27" data-shift="VOLNO" onclick="editDay(this)"><b>9</b><small>VOLNO</small><i></i></button><button class="day night" data-date="10.10.27" data-shift="NOČNÍ" onclick="editDay(this)"><b>10</b><small>NOČNÍ</small><i></i></button><button class="day night" data-date="11.10.27" data-shift="NOČNÍ" onclick="editDay(this)"><b>11</b><small>NOČNÍ</small><i></i></button><button class="day night" data-date="12.10.27" data-shift="NOČNÍ" onclick="editDay(this)"><b>12</b><small>NOČNÍ</small><i></i></button><button class="day night" data-date="13.10.27" data-shift="NOČNÍ" onclick="editDay(this)"><b>13</b><small>NOČNÍ</small><i></i></button><button class="day night" data-date="14.10.27" data-shift="NOČNÍ" onclick="editDay(this)"><b>14</b><small>NOČNÍ</small><i></i></button><button class="day night" data-date="15.10.27" data-shift="NOČNÍ" onclick="editDay(this)"><b>15</b><small>NOČNÍ</small><i></i></button><button class="day free" data-date="16.10.27" data-shift="VOLNO" onclick="editDay(this)"><b>16</b><small>VOLNO</small><i></i></button><button class="day free" data-date="17.10.27" data-shift="VOLNO" onclick="editDay(this)"><b>17</b><small>VOLNO</small><i></i></button><button class="day afternoon" data-date="18.10.27" data-shift="ODPOLEDNÍ" onclick="editDay(this)"><b>18</b><small>ODPOLEDNÍ</small><i></i></button><button class="day afternoon" data-date="19.10.27" data-shift="ODPOLEDNÍ" onclick="editDay(this)"><b>19</b><small>ODPOLEDNÍ</small><i></i></button><button class="day afternoon" data-date="20.10.27" data-shift="ODPOLEDNÍ" onclick="editDay(this)"><b>20</b><small>ODPOLEDNÍ</small><i></i></button><button class="day afternoon" data-date="21.10.27" data-shift="ODPOLEDNÍ" onclick="editDay(this)"><b>21</b><small>ODPOLEDNÍ</small><i></i></button><button class="day free" data-date="22.10.27" data-shift="VOLNO" onclick="editDay(this)"><b>22</b><small>VOLNO</small><i></i></button><button class="day morning" data-date="23.10.27" data-shift="RANNÍ" onclick="editDay(this)"><b>23</b><small>RANNÍ</small><i></i></button><button class="day morning" data-date="24.10.27" data-shift="RANNÍ" onclick="editDay(this)"><b>24</b><small>RANNÍ</small><i></i></button><button class="day morning" data-date="25.10.27" data-shift="RANNÍ" onclick="editDay(this)"><b>25</b><small>RANNÍ</small><i></i></button><button class="day free" data-date="26.10.27" data-shift="VOLNO" onclick="editDay(this)"><b>26</b><small>VOLNO</small><i></i></button><button class="day free" data-date="27.10.27" data-shift="VOLNO" onclick="editDay(this)"><b>27</b><small>VOLNO</small><i></i></button><button class="day free holiday" data-date="28.10.27" data-shift="VOLNO" onclick="editDay(this)"><b>28</b><small>VOLNO</small><em>SVÁTEK</em><i></i></button><button class="day afternoon" data-date="29.10.27" data-shift="ODPOLEDNÍ" onclick="editDay(this)"><b>29</b><small>ODPOLEDNÍ</small><i></i></button><button class="day afternoon" data-date="30.10.27" data-shift="ODPOLEDNÍ" onclick="editDay(this)"><b>30</b><small>ODPOLEDNÍ</small><i></i></button><button class="day afternoon" data-date="31.10.27" data-shift="ODPOLEDNÍ" onclick="editDay(this)"><b>31</b><small>ODPOLEDNÍ</small><i></i></button></div></section><section class="month" id="m11"><h2>Listopad 2027</h2><div class="week"><span>Po</span><span>Út</span><span>St</span><span>Čt</span><span>Pá</span><span>So</span><span>Ne</span></div><div class="grid"><button class="day free" data-date="1.11.27" data-shift="VOLNO" onclick="editDay(this)"><b>1</b><small>VOLNO</small><i></i></button><button class="day morning" data-date="2.11.27" data-shift="RANNÍ" onclick="editDay(this)"><b>2</b><small>RANNÍ</small><i></i></button><button class="day morning" data-date="3.11.27" data-shift="RANNÍ" onclick="editDay(this)"><b>3</b><small>RANNÍ</small><i></i></button><button class="day morning" data-date="4.11.27" data-shift="RANNÍ" onclick="editDay(this)"><b>4</b><small>RANNÍ</small><i></i></button><button class="day morning" data-date="5.11.27" data-shift="RANNÍ" onclick="editDay(this)"><b>5</b><small>RANNÍ</small><i></i></button><button class="day free" data-date="6.11.27" data-shift="VOLNO" onclick="editDay(this)"><b>6</b><small>VOLNO</small><i></i></button><button class="day night" data-date="7.11.27" data-shift="NOČNÍ" onclick="editDay(this)"><b>7</b><small>NOČNÍ</small><i></i></button><button class="day night" data-date="8.11.27" data-shift="NOČNÍ" onclick="editDay(this)"><b>8</b><small>NOČNÍ</small><i></i></button><button class="day night" data-date="9.11.27" data-shift="NOČNÍ" onclick="editDay(this)"><b>9</b><small>NOČNÍ</small><i></i></button><button class="day night" data-date="10.11.27" data-shift="NOČNÍ" onclick="editDay(this)"><b>10</b><small>NOČNÍ</small><i></i></button><button class="day night" data-date="11.11.27" data-shift="NOČNÍ" onclick="editDay(this)"><b>11</b><small>NOČNÍ</small><i></i></button><button class="day night" data-date="12.11.27" data-shift="NOČNÍ" onclick="editDay(this)"><b>12</b><small>NOČNÍ</small><i></i></button><button class="day free" data-date="13.11.27" data-shift="VOLNO" onclick="editDay(this)"><b>13</b><small>VOLNO</small><i></i></button><button class="day free" data-date="14.11.27" data-shift="VOLNO" onclick="editDay(this)"><b>14</b><small>VOLNO</small><i></i></button><button class="day afternoon" data-date="15.11.27" data-shift="ODPOLEDNÍ" onclick="editDay(this)"><b>15</b><small>ODPOLEDNÍ</small><i></i></button><button class="day afternoon" data-date="16.11.27" data-shift="ODPOLEDNÍ" onclick="editDay(this)"><b>16</b><small>ODPOLEDNÍ</small><i></i></button><button class="day afternoon holiday" data-date="17.11.27" data-shift="ODPOLEDNÍ" onclick="editDay(this)"><b>17</b><small>ODPOLEDNÍ</small><em>SVÁTEK</em><i></i></button><button class="day afternoon" data-date="18.11.27" data-shift="ODPOLEDNÍ" onclick="editDay(this)"><b>18</b><small>ODPOLEDNÍ</small><i></i></button><button class="day free" data-date="19.11.27" data-shift="VOLNO" onclick="editDay(this)"><b>19</b><small>VOLNO</small><i></i></button><button class="day morning" data-date="20.11.27" data-shift="RANNÍ" onclick="editDay(this)"><b>20</b><small>RANNÍ</small><i></i></button><button class="day morning" data-date="21.11.27" data-shift="RANNÍ" onclick="editDay(this)"><b>21</b><small>RANNÍ</small><i></i></button><button class="day morning" data-date="22.11.27" data-shift="RANNÍ" onclick="editDay(this)"><b>22</b><small>RANNÍ</small><i></i></button><button class="day free" data-date="23.11.27" data-shift="VOLNO" onclick="editDay(this)"><b>23</b><small>VOLNO</small><i></i></button><button class="day free" data-date="24.11.27" data-shift="VOLNO" onclick="editDay(this)"><b>24</b><small>VOLNO</small><i></i></button><button class="day free" data-date="25.11.27" data-shift="VOLNO" onclick="editDay(this)"><b>25</b><small>VOLNO</small><i></i></button><button class="day afternoon" data-date="26.11.27" data-shift="ODPOLEDNÍ" onclick="editDay(this)"><b>26</b><small>ODPOLEDNÍ</small><i></i></button><button class="day afternoon" data-date="27.11.27" data-shift="ODPOLEDNÍ" onclick="editDay(this)"><b>27</b><small>ODPOLEDNÍ</small><i></i></button><button class="day afternoon" data-date="28.11.27" data-shift="ODPOLEDNÍ" onclick="editDay(this)"><b>28</b><small>ODPOLEDNÍ</small><i></i></button><button class="day free" data-date="29.11.27" data-shift="VOLNO" onclick="editDay(this)"><b>29</b><small>VOLNO</small><i></i></button><button class="day morning" data-date="30.11.27" data-shift="RANNÍ" onclick="editDay(this)"><b>30</b><small>RANNÍ</small><i></i></button></div></section><section class="month" id="m12"><h2>Prosinec 2027</h2><div class="week"><span>Po</span><span>Út</span><span>St</span><span>Čt</span><span>Pá</span><span>So</span><span>Ne</span></div><div class="grid"><div class="blank"></div><div class="blank"></div><button class="day morning" data-date="1.12.27" data-shift="RANNÍ" onclick="editDay(this)"><b>1</b><small>RANNÍ</small><i></i></button><button class="day morning" data-date="2.12.27" data-shift="RANNÍ" onclick="editDay(this)"><b>2</b><small>RANNÍ</small><i></i></button><button class="day morning" data-date="3.12.27" data-shift="RANNÍ" onclick="editDay(this)"><b>3</b><small>RANNÍ</small><i></i></button><button class="day free" data-date="4.12.27" data-shift="VOLNO" onclick="editDay(this)"><b>4</b><small>VOLNO</small><i></i></button><button class="day night" data-date="5.12.27" data-shift="NOČNÍ" onclick="editDay(this)"><b>5</b><small>NOČNÍ</small><i></i></button><button class="day night" data-date="6.12.27" data-shift="NOČNÍ" onclick="editDay(this)"><b>6</b><small>NOČNÍ</small><i></i></button><button class="day night" data-date="7.12.27" data-shift="NOČNÍ" onclick="editDay(this)"><b>7</b><small>NOČNÍ</small><i></i></button><button class="day night" data-date="8.12.27" data-shift="NOČNÍ" onclick="editDay(this)"><b>8</b><small>NOČNÍ</small><i></i></button><button class="day night" data-date="9.12.27" data-shift="NOČNÍ" onclick="editDay(this)"><b>9</b><small>NOČNÍ</small><i></i></button><button class="day night" data-date="10.12.27" data-shift="NOČNÍ" onclick="editDay(this)"><b>10</b><small>NOČNÍ</small><i></i></button><button class="day free" data-date="11.12.27" data-shift="VOLNO" onclick="editDay(this)"><b>11</b><small>VOLNO</small><i></i></button><button class="day free" data-date="12.12.27" data-shift="VOLNO" onclick="editDay(this)"><b>12</b><small>VOLNO</small><i></i></button><button class="day afternoon" data-date="13.12.27" data-shift="ODPOLEDNÍ" onclick="editDay(this)"><b>13</b><small>ODPOLEDNÍ</small><i></i></button><button class="day afternoon" data-date="14.12.27" data-shift="ODPOLEDNÍ" onclick="editDay(this)"><b>14</b><small>ODPOLEDNÍ</small><i></i></button><button class="day afternoon" data-date="15.12.27" data-shift="ODPOLEDNÍ" onclick="editDay(this)"><b>15</b><small>ODPOLEDNÍ</small><i></i></button><button class="day afternoon" data-date="16.12.27" data-shift="ODPOLEDNÍ" onclick="editDay(this)"><b>16</b><small>ODPOLEDNÍ</small><i></i></button><button class="day free" data-date="17.12.27" data-shift="VOLNO" onclick="editDay(this)"><b>17</b><small>VOLNO</small><i></i></button><button class="day morning" data-date="18.12.27" data-shift="RANNÍ" onclick="editDay(this)"><b>18</b><small>RANNÍ</small><i></i></button><button class="day morning" data-date="19.12.27" data-shift="RANNÍ" onclick="editDay(this)"><b>19</b><small>RANNÍ</small><i></i></button><button class="day morning" data-date="20.12.27" data-shift="RANNÍ" onclick="editDay(this)"><b>20</b><small>RANNÍ</small><i></i></button><button class="day free" data-date="21.12.27" data-shift="VOLNO" onclick="editDay(this)"><b>21</b><small>VOLNO</small><i></i></button><button class="day free" data-date="22.12.27" data-shift="VOLNO" onclick="editDay(this)"><b>22</b><small>VOLNO</small><i></i></button><button class="day free" data-date="23.12.27" data-shift="VOLNO" onclick="editDay(this)"><b>23</b><small>VOLNO</small><i></i></button><button class="day afternoon holiday" data-date="24.12.27" data-shift="ODPOLEDNÍ" onclick="editDay(this)"><b>24</b><small>ODPOLEDNÍ</small><em>SVÁTEK</em><i></i></button><button class="day afternoon holiday" data-date="25.12.27" data-shift="ODPOLEDNÍ" onclick="editDay(this)"><b>25</b><small>ODPOLEDNÍ</small><em>SVÁTEK</em><i></i></button><button class="day afternoon holiday" data-date="26.12.27" data-shift="ODPOLEDNÍ" onclick="editDay(this)"><b>26</b><small>ODPOLEDNÍ</small><em>SVÁTEK</em><i></i></button><button class="day free" data-date="27.12.27" data-shift="VOLNO" onclick="editDay(this)"><b>27</b><small>VOLNO</small><i></i></button><button class="day morning" data-date="28.12.27" data-shift="RANNÍ" onclick="editDay(this)"><b>28</b><small>RANNÍ</small><i></i></button><button class="day morning" data-date="29.12.27" data-shift="RANNÍ" onclick="editDay(this)"><b>29</b><small>RANNÍ</small><i></i></button><button class="day morning" data-date="30.12.27" data-shift="RANNÍ" onclick="editDay(this)"><b>30</b><small>RANNÍ</small><i></i></button><button class="day morning" data-date="31.12.27" data-shift="RANNÍ" onclick="editDay(this)"><b>31</b><small>RANNÍ</small><i></i></button></div></section></main><dialog id="dlg"><h3 id="title"></h3><div id="shift"></div><label class="check"><input id="vac" type="checkbox"> Dovolená</label><label>Komentář</label><textarea id="comment"></textarea><div class="actions"><button onclick="removeEntry()">Smazat</button><button onclick="dlg.close()">Zrušit</button><button id="save" onclick="saveEntry()">Uložit</button></div></dialog><script>
-var current=1, selected=null, mem={}; try{mem=JSON.parse(localStorage.getItem('ruzicka27')||'{}')}catch(e){mem={}}
-function showMonth(n){current=Number(n);var ms=document.querySelectorAll('.month');for(var i=0;i<ms.length;i++)ms[i].style.display=(ms[i].id==='m'+current)?'block':'none';document.getElementById('pick').value=current;document.getElementById('cal').className='';document.getElementById('one').className='seg on';document.getElementById('all').className='seg';document.getElementById('pick').style.display='block'}
-function chooseMonth(n){showMonth(n)}function oneMonth(){showMonth(current)}function yearView(){var ms=document.querySelectorAll('.month');for(var i=0;i<ms.length;i++)ms[i].style.display='block';document.getElementById('cal').className='year';document.getElementById('one').className='seg';document.getElementById('all').className='seg on';document.getElementById('pick').style.display='none'}
-function editDay(el){selected=el;var k=el.getAttribute('data-date'),x=mem[k]||{};document.getElementById('title').textContent=k;document.getElementById('shift').textContent=el.getAttribute('data-shift')+(el.className.indexOf('holiday')>=0?' • SVÁTEK':'');document.getElementById('vac').checked=!!x.v;document.getElementById('comment').value=x.c||'';document.getElementById('dlg').showModal()}
-function persist(){try{localStorage.setItem('ruzicka27',JSON.stringify(mem))}catch(e){}renderMarks()}function saveEntry(){if(!selected)return;var k=selected.getAttribute('data-date'),v=document.getElementById('vac').checked,c=document.getElementById('comment').value;if(v||c)mem[k]={v:v,c:c};else delete mem[k];persist();document.getElementById('dlg').close()}function removeEntry(){if(selected)delete mem[selected.getAttribute('data-date')];persist();document.getElementById('dlg').close()}function renderMarks(){var ds=document.querySelectorAll('.day');for(var i=0;i<ds.length;i++){var k=ds[i].getAttribute('data-date'),x=mem[k]||{};ds[i].classList.toggle('vac',!!x.v);ds[i].classList.toggle('note',!!x.c)}}showMonth(1);renderMarks();
+<!doctype html>
+<html lang="cs" class="h-full">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no, viewport-fit=cover">
+  <meta name="apple-mobile-web-app-capable" content="yes">
+  <meta name="apple-mobile-web-app-status-bar-style" content="default">
+  <meta name="apple-mobile-web-app-title" content="Směny Bosch">
+  <meta name="theme-color" content="#6750a4">
+  <title>Směny Bosch 2026 / 2027</title>
 
-if ('serviceWorker' in navigator && location.protocol.indexOf('http')===0) { navigator.serviceWorker.register('./sw.js').catch(function(){}); }
-</script></body></html>
+  <!-- Google Fonts: Roboto & Material Symbols -->
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Roboto:wght@400;500;700;900&display=swap" rel="stylesheet">
+  <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:opsz,wght,FILL,GRAD@20..48,100..700,0..1,-50..200" />
+
+  <!-- Tailwind CSS -->
+  <script src="https://cdn.tailwindcss.com"></script>
+  <script>
+    tailwind.config = {
+      theme: {
+        extend: {
+          fontFamily: {
+            sans: ['Roboto', '-apple-system', 'BlinkMacSystemFont', 'sans-serif'],
+          },
+          colors: {
+            // Official Material Design 3 Palette
+            md: {
+              primary: '#6750a4',
+              onPrimary: '#ffffff',
+              primaryContainer: '#eaddff',
+              onPrimaryContainer: '#21005d',
+              surface: '#fef7ff',
+              surfaceDim: '#ded8e1',
+              surfaceContainerLow: '#f7f2fa',
+              surfaceContainer: '#f3edf7',
+              surfaceContainerHigh: '#ece6f0',
+              surfaceContainerHighest: '#e6e0e9',
+              onSurface: '#1d1b20',
+              onSurfaceVariant: '#49454f',
+              outline: '#79747e',
+              outlineVariant: '#c4c7c5',
+            },
+            // Shift Tokens
+            shiftR: { bg: '#e6f4ea', text: '#137333', border: '#a8dab5' },
+            shiftO: { bg: '#fef7e0', text: '#b06000', border: '#ffd8a8' },
+            shiftN: { bg: '#e8f0fe', text: '#1a73e8', border: '#adc6ff' },
+            shiftV: { bg: '#ffffff', text: '#49454f', border: '#e0e0e0' },
+          },
+          boxShadow: {
+            'md-1': '0px 1px 3px 1px rgba(0, 0, 0, 0.15), 0px 1px 2px 0px rgba(0, 0, 0, 0.30)',
+            'md-2': '0px 2px 6px 2px rgba(0, 0, 0, 0.15), 0px 1px 2px 0px rgba(0, 0, 0, 0.30)',
+            'md-3': '0px 4px 8px 3px rgba(0, 0, 0, 0.15), 0px 1px 3px 0px rgba(0, 0, 0, 0.30)',
+          }
+        }
+      }
+    }
+  </script>
+
+  <style>
+    body {
+      background-color: #f7f2fa;
+      -webkit-tap-highlight-color: transparent;
+      user-select: none;
+    }
+    .safe-top { padding-top: max(12px, env(safe-area-inset-top)); }
+    .safe-bottom { padding-bottom: max(16px, env(safe-area-inset-bottom)); }
+
+    /* MDC Ripple Effect */
+    .md-ripple {
+      position: relative;
+      overflow: hidden;
+    }
+    .md-ripple::after {
+      content: "";
+      display: block;
+      position: absolute;
+      width: 100%;
+      height: 100%;
+      top: 0;
+      left: 0;
+      pointer-events: none;
+      background-image: radial-gradient(circle, #000 10%, transparent 10.01%);
+      background-repeat: no-repeat;
+      background-position: 50%;
+      transform: scale(10, 10);
+      opacity: 0;
+      transition: transform .3s, opacity 0.5s;
+    }
+    .md-ripple:active::after {
+      transform: scale(0, 0);
+      opacity: 0.12;
+      transition: 0s;
+    }
+
+    /* Scrollbar hide */
+    .no-scrollbar::-webkit-scrollbar { display: none; }
+    .no-scrollbar { -ms-overflow-style: none; scrollbar-width: none; }
+
+    /* M3 Day Badges & Overlays */
+    .is-holiday::before {
+      content: '';
+      position: absolute;
+      top: 3px;
+      right: 3px;
+      width: 6px;
+      height: 6px;
+      background-color: #b3261e;
+      border-radius: 50%;
+    }
+
+    .is-vacation::after {
+      content: '🌴';
+      position: absolute;
+      bottom: 1px;
+      right: 2px;
+      font-size: 9px;
+      line-height: 1;
+    }
+
+    .has-note::before {
+      content: '•';
+      position: absolute;
+      bottom: -1px;
+      left: 3px;
+      font-size: 14px;
+      color: #6750a4;
+      font-weight: bold;
+    }
+  </style>
+</head>
+
+<body class="text-md-onSurface antialiased min-h-screen flex flex-col pb-28">
+
+  <!-- TOP NAVBAR (Material 3 Top App Bar) -->
+  <header class="sticky top-0 z-40 bg-md-surfaceContainerHigh/95 backdrop-blur-md border-b border-md-outlineVariant/30 safe-top shadow-md-1">
+    <div class="max-w-4xl mx-auto px-4 py-2.5 flex items-center justify-between gap-2">
+      <!-- Title & Active Team Info -->
+      <div class="flex items-center gap-2.5">
+        <div class="w-9 h-9 rounded-2xl bg-md-primaryContainer text-md-onPrimaryContainer flex items-center justify-center font-black text-base shadow-sm">
+          ⚡
+        </div>
+        <div>
+          <h1 class="text-sm font-bold text-md-onSurface leading-tight">Směny Bosch</h1>
+          <p class="text-[11px] font-medium text-md-primary flex items-center gap-1">
+            Tým: <button onclick="openSettingsModal()" id="currentTeamBadge" class="font-bold underline decoration-1 decoration-md-primary hover:opacity-80">Růžička</button>
+          </p>
+        </div>
+      </div>
+
+      <!-- Right Controls: View Switcher & Team Selector -->
+      <div class="flex items-center gap-2">
+        <!-- View Switcher (M3 Segmented Button) -->
+        <div class="bg-md-surfaceContainer p-1 rounded-full border border-md-outlineVariant/40 flex text-[11px] font-medium">
+          <button id="btnMonthView" onclick="setView('month')" class="px-3 py-1 rounded-full bg-md-primaryContainer text-md-onPrimaryContainer font-bold transition-all shadow-sm">
+            Měsíc
+          </button>
+          <button id="btnYearView" onclick="setView('year')" class="px-3 py-1 rounded-full text-md-onSurfaceVariant transition-all">
+            Rok
+          </button>
+        </div>
+
+        <!-- Team Change Button -->
+        <button onclick="openSettingsModal()" class="w-9 h-9 rounded-full bg-md-surfaceContainer hover:bg-md-surfaceContainerHigh text-md-onSurface flex items-center justify-center md-ripple active:scale-95 transition border border-md-outlineVariant/40" title="Změnit tým">
+          <span class="material-symbols-outlined text-lg">groups</span>
+        </button>
+      </div>
+    </div>
+
+    <!-- Month Selector Chip Slider -->
+    <div id="monthSliderWrapper" class="max-w-4xl mx-auto px-4 pb-2.5 overflow-x-auto no-scrollbar flex gap-1.5 text-xs font-semibold">
+      <!-- Generated Dynamically -->
+    </div>
+  </header>
+
+  <!-- MAIN CONTENT CONTAINER -->
+  <main class="max-w-4xl mx-auto px-3 pt-3 w-full flex-1">
+
+    <!-- TAB 1: KALENDÁŘ (SHIFTS) -->
+    <div id="tabCalendarView" class="space-y-3">
+      <!-- Legend Chips -->
+      <div class="flex items-center gap-1.5 overflow-x-auto no-scrollbar pb-1 text-[11px] font-medium">
+        <span class="px-2.5 py-0.5 rounded-full bg-shiftR-bg text-shiftR-text border border-shiftR-border flex items-center gap-1 font-bold whitespace-nowrap">
+          <span class="w-1.5 h-1.5 rounded-full bg-emerald-600"></span> Ranní (R)
+        </span>
+        <span class="px-2.5 py-0.5 rounded-full bg-shiftO-bg text-shiftO-text border border-shiftO-border flex items-center gap-1 font-bold whitespace-nowrap">
+          <span class="w-1.5 h-1.5 rounded-full bg-amber-600"></span> Odpolední (O)
+        </span>
+        <span class="px-2.5 py-0.5 rounded-full bg-shiftN-bg text-shiftN-text border border-shiftN-border flex items-center gap-1 font-bold whitespace-nowrap">
+          <span class="w-1.5 h-1.5 rounded-full bg-blue-600"></span> Noční (N)
+        </span>
+        <span class="px-2.5 py-0.5 rounded-full bg-white text-slate-600 border border-slate-300 flex items-center gap-1 font-bold whitespace-nowrap">
+          <span class="w-1.5 h-1.5 rounded-full bg-slate-400"></span> Volno
+        </span>
+        <span class="px-2.5 py-0.5 rounded-full bg-rose-100 text-rose-800 border border-rose-300 flex items-center gap-1 font-bold whitespace-nowrap">
+          <span class="w-1.5 h-1.5 rounded-full bg-rose-600"></span> Svátek
+        </span>
+      </div>
+
+      <!-- Calendar Render Zone -->
+      <div id="calendarContent" class="space-y-4">
+        <!-- Rendered via JS -->
+      </div>
+    </div>
+
+    <!-- TAB 2: DOVOLENÁ (VACATION DASHBOARD) -->
+    <div id="tabVacationView" class="hidden space-y-3">
+      <div class="bg-md-surfaceContainerLow rounded-[28px] p-5 shadow-sm border border-md-outlineVariant/30 text-center space-y-4">
+        <div>
+          <h2 class="text-lg font-bold text-md-onSurface">Moje dovolená 🌴</h2>
+          <p class="text-xs text-md-onSurfaceVariant mt-0.5">Přehled dovolené pro tým <strong id="vacTeamLabel">Růžička</strong></p>
+        </div>
+
+        <!-- Big Circular Counter -->
+        <div class="relative w-32 h-32 mx-auto flex flex-col justify-center items-center rounded-full bg-emerald-50 border-4 border-emerald-500 shadow-sm">
+          <span id="vacRemainingCount" class="text-3xl font-extrabold text-emerald-800 leading-none">25</span>
+          <span class="text-[10px] font-bold text-emerald-600 mt-1 uppercase tracking-wider">dní zbývá</span>
+        </div>
+
+        <!-- Breakdown Cards -->
+        <div class="grid grid-cols-2 gap-2.5 pt-1">
+          <div class="p-3 rounded-2xl bg-white border border-md-outlineVariant/30 text-center">
+            <span id="vacTotalAllowanceDisplay" class="text-xl font-black text-md-onSurface block">25</span>
+            <span class="text-[11px] font-medium text-md-onSurfaceVariant">Celkový nárok</span>
+          </div>
+          <div class="p-3 rounded-2xl bg-white border border-md-outlineVariant/30 text-center">
+            <span id="vacUsedCount" class="text-xl font-black text-amber-700 block">0</span>
+            <span class="text-[11px] font-medium text-md-onSurfaceVariant">Vyčerpáno</span>
+          </div>
+        </div>
+
+        <!-- Inline Allowance Edit -->
+        <div class="p-3 rounded-2xl bg-md-surfaceContainer border border-md-outlineVariant/30 flex items-center justify-between gap-3 text-left">
+          <div>
+            <span class="text-xs font-bold text-md-onSurface block">Upravit roční nárok</span>
+            <span class="text-[10px] text-md-onSurfaceVariant">Počet dní na rok</span>
+          </div>
+          <div class="flex items-center gap-1.5">
+            <input type="number" id="vacInputAllowance" min="0" max="60" value="25" onchange="updateAllowanceFromInput(this.value)" class="w-14 p-1.5 text-center text-xs font-bold bg-white rounded-xl border border-md-outlineVariant focus:outline-none focus:ring-2 focus:ring-md-primary">
+            <span class="text-xs font-bold text-md-onSurface">dní</span>
+          </div>
+        </div>
+      </div>
+
+      <!-- Vacation List Card -->
+      <div class="bg-md-surfaceContainerLow rounded-[28px] p-4 shadow-sm border border-md-outlineVariant/30 space-y-2.5">
+        <h3 class="text-xs font-bold text-md-onSurface flex items-center gap-1.5">
+          <span class="material-symbols-outlined text-emerald-600 text-base">event_available</span>
+          Seznam označené dovolené
+        </h3>
+        <div id="vacationDaysList" class="space-y-2">
+          <!-- Rendered via JS -->
+        </div>
+      </div>
+    </div>
+
+    <!-- TAB 3: INBOX (ANNOUNCEMENTS & OVERTIME) -->
+    <div id="tabInboxView" class="hidden space-y-3">
+      <div class="bg-md-surfaceContainerLow rounded-[28px] p-4 shadow-sm border border-md-outlineVariant/30">
+        <h2 class="text-base font-bold text-md-onSurface mb-0.5">Inbox & Oznámení 📥</h2>
+        <p class="text-xs text-md-onSurfaceVariant mb-3">Informace o směnách a zaznamenaných přesčasech.</p>
+
+        <div id="inboxContentList" class="space-y-2.5">
+          <!-- Dynamically populated -->
+        </div>
+      </div>
+    </div>
+
+    <!-- TAB 4: NASTAVENÍ (SETTINGS) -->
+    <div id="tabSettingsView" class="hidden space-y-3">
+      <div class="bg-md-surfaceContainerLow rounded-[28px] p-5 shadow-sm border border-md-outlineVariant/30 space-y-4">
+        <div>
+          <h2 class="text-base font-bold text-md-onSurface">Nastavení aplikace ⚙️</h2>
+          <p class="text-xs text-md-onSurfaceVariant">Správa výchozího týmu a dat.</p>
+        </div>
+
+        <!-- Team Preference -->
+        <div class="space-y-2">
+          <label class="text-[11px] font-bold text-md-primary uppercase tracking-wider block">Vyberte váš Tým</label>
+          <div class="grid grid-cols-2 gap-2" id="settingsTeamButtons">
+            <!-- Dynamic Buttons -->
+          </div>
+        </div>
+
+        <hr class="border-md-outlineVariant/30">
+
+        <!-- Allowance setting -->
+        <div class="flex items-center justify-between gap-3">
+          <div>
+            <span class="text-xs font-bold text-md-onSurface block">Roční nárok na dovolenou</span>
+            <span class="text-[10px] text-md-onSurfaceVariant">Počet dní za rok</span>
+          </div>
+          <input type="number" id="settingsVacAllowanceInput" value="25" onchange="updateAllowanceFromInput(this.value)" class="w-16 p-2 text-center font-bold text-xs bg-white rounded-xl border border-md-outlineVariant focus:ring-2 focus:ring-md-primary">
+        </div>
+
+        <hr class="border-md-outlineVariant/30">
+
+        <!-- Storage Reset -->
+        <div class="space-y-2">
+          <h3 class="text-xs font-bold text-md-onSurface">Správa paměti localStorage</h3>
+          <button onclick="clearUserData()" class="w-full py-2.5 px-3 rounded-2xl bg-rose-50 text-rose-700 hover:bg-rose-100 font-bold text-xs flex items-center justify-center gap-1.5 border border-rose-200 transition active:scale-98">
+            <span class="material-symbols-outlined text-base">delete</span>
+            Vynulovat uložená data
+          </button>
+        </div>
+      </div>
+    </div>
+
+  </main>
+
+  <!-- BOTTOM NAVIGATION BAR (Material 3 Navigation Bar) -->
+  <nav class="fixed bottom-0 left-0 right-0 z-40 bg-md-surfaceContainerHigh/95 backdrop-blur-md border-t border-md-outlineVariant/30 safe-bottom shadow-md-3">
+    <div class="max-w-md mx-auto px-2 h-16 flex items-center justify-around">
+      
+      <!-- 1. Kalendář -->
+      <button onclick="switchTab('calendar')" id="navCalendar" class="flex flex-col items-center justify-center group w-16 h-full">
+        <div id="navCalendarIconBg" class="w-12 h-7 rounded-full bg-md-primaryContainer text-md-onPrimaryContainer flex items-center justify-center transition-all">
+          <span class="material-symbols-outlined text-lg">calendar_month</span>
+        </div>
+        <span class="text-[10px] font-bold text-md-onSurface mt-1" id="navCalendarLabel">Směny</span>
+      </button>
+
+      <!-- 2. Dovolená -->
+      <button onclick="switchTab('vacation')" id="navVacation" class="flex flex-col items-center justify-center group w-16 h-full">
+        <div id="navVacationIconBg" class="w-12 h-7 rounded-full text-md-onSurfaceVariant flex items-center justify-center transition-all">
+          <span class="material-symbols-outlined text-lg">beach_access</span>
+        </div>
+        <span class="text-[10px] font-semibold text-md-onSurfaceVariant mt-1" id="navVacationLabel">Dovolená</span>
+      </button>
+
+      <!-- 3. Inbox -->
+      <button onclick="switchTab('inbox')" id="navInbox" class="flex flex-col items-center justify-center group w-16 h-full">
+        <div id="navInboxIconBg" class="w-12 h-7 rounded-full text-md-onSurfaceVariant flex items-center justify-center transition-all">
+          <span class="material-symbols-outlined text-lg">inbox</span>
+        </div>
+        <span class="text-[10px] font-semibold text-md-onSurfaceVariant mt-1" id="navInboxLabel">Inbox</span>
+      </button>
+
+      <!-- 4. Nastavení -->
+      <button onclick="switchTab('settings')" id="navSettings" class="flex flex-col items-center justify-center group w-16 h-full">
+        <div id="navSettingsIconBg" class="w-12 h-7 rounded-full text-md-onSurfaceVariant flex items-center justify-center transition-all">
+          <span class="material-symbols-outlined text-lg">settings</span>
+        </div>
+        <span class="text-[10px] font-semibold text-md-onSurfaceVariant mt-1" id="navSettingsLabel">Nastavení</span>
+      </button>
+
+    </div>
+  </nav>
+
+  <!-- EDIT DAY MODAL DIALOG -->
+  <dialog id="editModal" class="rounded-[28px] p-0 w-11/12 max-w-sm shadow-md-3 bg-md-surfaceContainer border-0 backdrop:bg-slate-900/50 backdrop:backdrop-blur-sm">
+    <div class="p-5">
+      <div class="flex justify-between items-start pb-2.5 border-b border-md-outlineVariant/30">
+        <div>
+          <span class="text-[10px] font-bold text-md-primary uppercase tracking-wider" id="modalTeamLabel">Tým: Růžička</span>
+          <h3 class="font-extrabold text-lg text-md-onSurface" id="modalDate">1.10.2026</h3>
+          <p class="text-xs font-semibold text-md-onSurfaceVariant mt-0.5" id="modalShiftInfo">Plánovaná směna: RANNÍ</p>
+        </div>
+        <button onclick="closeModal()" class="w-7 h-7 rounded-full bg-md-surfaceContainerHigh text-md-onSurfaceVariant flex items-center justify-center font-bold text-xs">✕</button>
+      </div>
+
+      <div class="mt-4 space-y-3">
+        <!-- Vacation toggle -->
+        <label class="flex items-center gap-3 p-3 bg-md-surfaceContainerLow rounded-2xl border border-md-outlineVariant/40 cursor-pointer">
+          <input type="checkbox" id="modalVacation" class="w-4 h-4 accent-md-primary rounded">
+          <div>
+            <span class="text-xs font-bold text-md-onSurface block">🌴 Čerpání dovolené</span>
+            <span class="text-[10px] text-md-onSurfaceVariant block">Započítat den do vyčerpané dovolené</span>
+          </div>
+        </label>
+
+        <!-- Custom Comment -->
+        <div>
+          <label class="block text-xs font-bold text-md-onSurfaceVariant mb-1">Komentář / Přesčas 📝</label>
+          <textarea id="modalNote" rows="2" placeholder="Např. Přesčas 2h..." class="w-full p-2.5 bg-md-surfaceContainerLow rounded-2xl border border-md-outlineVariant/40 text-xs focus:outline-none focus:ring-2 focus:ring-md-primary text-md-onSurface"></textarea>
+        </div>
+      </div>
+
+      <div class="mt-5 flex gap-2 justify-end">
+        <button onclick="deleteDayData()" class="px-3.5 py-2 text-xs font-bold text-rose-700 bg-rose-50 rounded-full hover:bg-rose-100 transition">Smazat</button>
+        <button onclick="closeModal()" class="px-3.5 py-2 text-xs font-bold text-md-onSurfaceVariant bg-md-surfaceContainerHigh rounded-full transition">Zrušit</button>
+        <button onclick="saveDayData()" class="px-4 py-2 text-xs font-bold text-md-onPrimary bg-md-primary hover:bg-indigo-700 rounded-full shadow-md-1 transition">Uložit</button>
+      </div>
+    </div>
+  </dialog>
+
+  <!-- TEAM PICKER MODAL DIALOG -->
+  <dialog id="settingsModal" class="rounded-[28px] p-0 w-11/12 max-w-sm shadow-md-3 bg-md-surfaceContainer border-0 backdrop:bg-slate-900/50 backdrop:backdrop-blur-sm">
+    <div class="p-5">
+      <div class="flex justify-between items-center pb-2.5 border-b border-md-outlineVariant/30">
+        <h3 class="font-extrabold text-base text-md-onSurface">Vybrat Pracovní Tým</h3>
+        <button onclick="closeSettingsModal()" class="w-7 h-7 rounded-full bg-md-surfaceContainerHigh text-md-onSurfaceVariant flex items-center justify-center font-bold text-xs">✕</button>
+      </div>
+
+      <div class="mt-3 space-y-2.5">
+        <p class="text-xs text-md-onSurfaceVariant">Zvolte skupinu pro zobrazení směn:</p>
+
+        <div class="grid grid-cols-2 gap-2" id="teamModalButtons">
+          <!-- Dynamic team buttons -->
+        </div>
+      </div>
+
+      <div class="mt-5 flex justify-end">
+        <button onclick="closeSettingsModal()" class="px-4 py-2 text-xs font-bold text-md-onPrimary bg-md-primary rounded-full shadow-md-1">Hotovo</button>
+      </div>
+    </div>
+  </dialog>
+
+  <!-- JAVASCRIPT ENGINE -->
+  <script>
+    const TEAMS = ['Němček', 'Bártl', 'Růžička', 'Sellner'];
+
+    const RAW_SHIFTS = {
+      '10.2026': {
+        'Němček': 'O,volno,R,R,R,volno,volno,volno,O,O,O,volno,R,R,R,R,volno,N,N,N,N,N,N,volno,O,O,O,R,R,R,R',
+        'Bártl': 'R,R,volno,N,N,N,N,N,N,N,volno,O,O,volno,volno,volno,R,R,R,R,volno,N,N,N,N,N,N,N,volno,O,O',
+        'Růžička': 'volno,volno,O,O,volno,R,R,R,R,volno,N,N,N,N,N,N,R,R,R,R,volno,O,O,O,volno,R,R,R,volno,R,R',
+        'Sellner': 'N,N,volno,volno,O,O,O,O,volno,R,R,R,R,volno,N,N,volno,O,O,O,O,R,R,R,R,N,N,N,N,N,N'
+      },
+      '11.2026': {
+        'Němček': 'R,R,volno,volno,volno,O,O,O,O,R,R,R,R,volno,N,N,N,N,N,N,volno,volno,O,O,O,O,O,R,R,R',
+        'Bártl': 'N,N,N,N,N,N,volno,O,O,O,O,O,R,R,N,N,N,N,N,N,volno,O,O,O,O,O,R,R,N,N',
+        'Růžička': 'O,volno,R,R,R,R,volno,N,N,N,N,N,N,volno,O,O,volno,R,R,R,O,O,O,volno,R,R,R,volno,volno,volno',
+        'Sellner': 'volno,O,O,O,O,volno,R,R,R,volno,volno,O,O,O,O,O,R,O,O,O,R,R,R,N,N,N,N,O,O,O'
+      },
+      '12.2026': {
+        'Němček': 'O,O,O,O,O,O,volno,R,R,R,R,R,R,N,N,N,N,N,N,O,O,O,O,R,R,R,R,R,R,R,R',
+        'Bártl': 'N,N,N,N,volno,volno,volno,O,O,O,O,R,R,R,N,N,N,N,N,O,O,O,O,R,R,R,R,R,R,R,R',
+        'Růžička': 'R,R,R,R,volno,N,N,N,N,N,N,volno,R,R,R,O,O,O,O,volno,R,R,R,R,R,R,N,N,N,N,N',
+        'Sellner': 'O,O,O,O,R,R,R,volno,volno,volno,O,O,O,O,R,R,R,R,N,N,N,N,N,N,N,N,O,O,O,O,O'
+      },
+      '1.2027': {
+        'Němček': 'O,O,O,volno,R,R,R,R,volno,N,N,N,N,N,N,volno,volno,O,O,O,O,O,volno,R,R,R,R,R,R,O,O',
+        'Bártl': 'N,volno,volno,O,O,O,O,O,R,R,R,R,R,R,R,O,O,O,O,O,O,O,O,N,N,N,N,N,N,N,N',
+        'Růžička': 'R,volno,volno,N,N,N,N,N,R,R,R,R,O,O,O,R,R,R,R,R,R,R,R,N,N,N,N,N,N,N,N',
+        'Sellner': 'O,R,R,R,volno,volno,volno,O,O,O,O,R,R,R,R,R,R,N,N,N,N,N,O,O,O,R,R,R,R,R,R'
+      },
+      '2.2027': {
+        'Němček': 'R,R,R,R,volno,N,N,N,N,N,N,volno,O,O,O,O,O,O,O,R,R,R,R,R,R,O,O,O',
+        'Bártl': 'O,O,O,O,O,R,R,R,O,O,O,O,O,O,O,O,O,R,R,N,N,N,N,N,N,N,R,R',
+        'Růžička': 'N,N,N,N,N,O,O,O,O,O,O,R,R,R,R,R,R,R,N,N,N,N,N,N,N,N,N,N',
+        'Sellner': 'R,R,R,R,O,O,O,R,R,R,R,N,N,N,N,N,N,N,O,O,O,O,R,R,R,R,R,R'
+      },
+      '3.2027': {
+        'Němček': 'R,R,R,R,volno,N,N,N,N,N,N,O,O,O,O,O,O,O,R,R,R,O,O,O,O,O,O,O,R,R,R',
+        'Bártl': 'R,R,R,R,O,R,R,R,O,O,O,O,O,O,O,R,R,O,O,N,N,N,N,N,N,N,N,N,N,N,N',
+        'Růžička': 'N,N,N,N,N,O,O,O,O,O,O,O,R,R,R,R,R,R,R,R,R,N,N,N,N,N,N,N,N,N,N',
+        'Sellner': 'R,R,R,R,O,O,O,R,R,R,R,N,N,N,N,N,N,N,O,O,O,O,R,R,R,N,N,N,N,N,N'
+      },
+      '4.2027': {
+        'Němček': 'R,R,R,R,R,R,R,R,R,volno,N,N,N,N,N,N,R,R,R,O,O,O,R,R,R,R,R,R,R,R',
+        'Bártl': 'O,R,R,R,O,O,O,O,O,O,O,O,O,O,O,N,N,N,N,N,N,N,N,O,O,O,O,O,O,O',
+        'Růžička': 'N,N,N,N,R,R,R,R,R,R,R,R,R,R,R,R,O,O,O,R,R,R,R,N,N,N,N,N,N,N',
+        'Sellner': 'N,O,O,O,R,R,R,R,N,N,N,N,N,N,N,O,O,O,O,O,O,O,O,R,R,R,R,R,R,O'
+      },
+      '5.2027': {
+        'Němček': 'R,R,R,R,R,R,R,O,O,O,O,O,O,O,R,R,R,R,O,O,O,O,O,R,R,R,R,O,O,O,O',
+        'Bártl': 'O,O,O,O,O,O,O,R,R,R,R,R,N,N,N,N,N,N,N,N,N,O,O,O,O,R,R,R,R,R,R',
+        'Růžička': 'R,R,R,R,R,R,R,R,R,R,R,R,O,O,O,R,R,R,R,R,R,N,N,N,N,N,N,R,R,R,R',
+        'Sellner': 'O,O,R,R,R,R,N,N,N,N,N,N,O,O,O,O,O,O,R,R,R,R,R,N,N,N,O,O,O,O,O'
+      },
+      '6.2027': {
+        'Němček': 'N,N,N,N,R,R,R,O,O,O,O,R,R,R,O,O,O,R,R,O,O,O,O,R,N,N,N,N,N,N',
+        'Bártl': 'O,O,O,O,O,O,O,R,R,R,R,N,N,N,N,N,N,N,N,O,O,O,R,R,R,R,R,R,R,R',
+        'Růžička': 'R,R,R,R,R,R,R,N,N,N,N,O,O,O,R,R,R,N,N,N,N,N,N,O,O,O,O,O,O,O',
+        'Sellner': 'R,R,R,R,N,N,N,N,N,N,N,O,O,O,O,O,O,R,R,R,R,R,N,N,O,O,O,R,R,R'
+      }
+    };
+
+    const HOLIDAYS = {
+      '28.10.26': 'Státní svátek',
+      '17.11.26': 'Den boje za svobodu',
+      '24.12.26': 'Štědrý den',
+      '25.12.26': '1. svátek vánoční',
+      '26.12.26': '2. svátek vánoční',
+      '1.1.27': 'Nový rok',
+      '26.3.27': 'Velký pátek',
+      '29.3.27': 'Velikonoční pondělí',
+      '1.5.27': 'Svátek práce',
+      '8.5.27': 'Den vítězství'
+    };
+
+    const MONTH_NAMES = [
+      'Říjen 2026', 'Listopad 2026', 'Prosinec 2026',
+      'Leden 2027', 'Únor 2027', 'Březen 2027',
+      'Duben 2027', 'Květen 2027', 'Červen 2027'
+    ];
+
+    const MONTH_KEYS = ['10.2026', '11.2026', '12.2026', '1.2027', '2.2027', '3.2027', '4.2027', '5.2027', '6.2027'];
+
+    // STATE
+    let selectedTeam = localStorage.getItem('bosch_user_team') || 'Růžička';
+    let vacationAllowance = parseInt(localStorage.getItem('bosch_vacation_allowance')) || 25;
+    let currentMonthIdx = 0;
+    let currentView = 'month'; 
+    let currentTab = 'calendar'; 
+    let userDayData = JSON.parse(localStorage.getItem('bosch_user_notes') || '{}');
+    let activeEditingKey = null;
+
+    // INIT
+    window.onload = function() {
+      updateTeamBadge();
+      renderMonthSlider();
+      renderCalendar();
+      updateVacationDashboard();
+      renderSettingsButtons();
+      renderInbox();
+    };
+
+    function updateTeamBadge() {
+      document.getElementById('currentTeamBadge').textContent = selectedTeam;
+      document.getElementById('vacTeamLabel').textContent = selectedTeam;
+    }
+
+    // TAB SWITCHING
+    function switchTab(tab) {
+      currentTab = tab;
+
+      document.getElementById('tabCalendarView').classList.add('hidden');
+      document.getElementById('tabVacationView').classList.add('hidden');
+      document.getElementById('tabInboxView').classList.add('hidden');
+      document.getElementById('tabSettingsView').classList.add('hidden');
+
+      ['navCalendar', 'navVacation', 'navInbox', 'navSettings'].forEach(id => {
+        const bg = document.getElementById(id + 'IconBg');
+        const lbl = document.getElementById(id + 'Label');
+        bg.className = 'w-12 h-7 rounded-full text-md-onSurfaceVariant flex items-center justify-center transition-all';
+        lbl.className = 'text-[10px] font-semibold text-md-onSurfaceVariant mt-1';
+      });
+
+      if (tab === 'calendar') {
+        document.getElementById('tabCalendarView').classList.remove('hidden');
+        document.getElementById('navCalendarIconBg').className = 'w-12 h-7 rounded-full bg-md-primaryContainer text-md-onPrimaryContainer flex items-center justify-center transition-all';
+        document.getElementById('navCalendarLabel').className = 'text-[10px] font-bold text-md-onSurface mt-1';
+      } else if (tab === 'vacation') {
+        document.getElementById('tabVacationView').classList.remove('hidden');
+        document.getElementById('navVacationIconBg').className = 'w-12 h-7 rounded-full bg-md-primaryContainer text-md-onPrimaryContainer flex items-center justify-center transition-all';
+        document.getElementById('navVacationLabel').className = 'text-[10px] font-bold text-md-onSurface mt-1';
+        updateVacationDashboard();
+      } else if (tab === 'inbox') {
+        document.getElementById('tabInboxView').classList.remove('hidden');
+        document.getElementById('navInboxIconBg').className = 'w-12 h-7 rounded-full bg-md-primaryContainer text-md-onPrimaryContainer flex items-center justify-center transition-all';
+        document.getElementById('navInboxLabel').className = 'text-[10px] font-bold text-md-onSurface mt-1';
+        renderInbox();
+      } else if (tab === 'settings') {
+        document.getElementById('tabSettingsView').classList.remove('hidden');
+        document.getElementById('navSettingsIconBg').className = 'w-12 h-7 rounded-full bg-md-primaryContainer text-md-onPrimaryContainer flex items-center justify-center transition-all';
+        document.getElementById('navSettingsLabel').className = 'text-[10px] font-bold text-md-onSurface mt-1';
+      }
+    }
+
+    // VIEW SWITCHER
+    function setView(view) {
+      currentView = view;
+      const btnMonth = document.getElementById('btnMonthView');
+      const btnYear = document.getElementById('btnYearView');
+
+      if (view === 'month') {
+        btnMonth.className = 'px-3 py-1 rounded-full bg-md-primaryContainer text-md-onPrimaryContainer font-bold transition-all shadow-sm';
+        btnYear.className = 'px-3 py-1 rounded-full text-md-onSurfaceVariant transition-all';
+        document.getElementById('monthSliderWrapper').classList.remove('hidden');
+      } else {
+        btnYear.className = 'px-3 py-1 rounded-full bg-md-primaryContainer text-md-onPrimaryContainer font-bold transition-all shadow-sm';
+        btnMonth.className = 'px-3 py-1 rounded-full text-md-onSurfaceVariant transition-all';
+        document.getElementById('monthSliderWrapper').classList.add('hidden');
+      }
+
+      renderCalendar();
+    }
+
+    // MONTH SLIDER
+    function renderMonthSlider() {
+      const container = document.getElementById('monthSliderWrapper');
+      container.innerHTML = '';
+
+      MONTH_NAMES.forEach((name, idx) => {
+        const btn = document.createElement('button');
+        const isActive = idx === currentMonthIdx;
+        btn.className = `px-3 py-1 rounded-full whitespace-nowrap transition-all ${
+          isActive 
+            ? 'bg-md-primary text-md-onPrimary shadow-md-1 font-bold' 
+            : 'bg-md-surfaceContainerLow text-md-onSurfaceVariant border border-md-outlineVariant/40 hover:bg-md-surfaceContainer'
+        }`;
+        btn.textContent = name;
+        btn.onclick = () => {
+          currentMonthIdx = idx;
+          renderMonthSlider();
+          renderCalendar();
+        };
+        container.appendChild(btn);
+      });
+    }
+
+    // CALENDAR RENDER ENGINE
+    function renderCalendar() {
+      const cal = document.getElementById('calendarContent');
+      cal.innerHTML = '';
+
+      if (currentView === 'month') {
+        cal.appendChild(createMonthCard(currentMonthIdx));
+      } else {
+        const grid = document.createElement('div');
+        grid.className = 'grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-3';
+        MONTH_KEYS.forEach((_, idx) => {
+          grid.appendChild(createMonthCard(idx, true));
+        });
+        cal.appendChild(grid);
+      }
+    }
+
+    function createMonthCard(monthIdx, isMini = false) {
+      const monthKey = MONTH_KEYS[monthIdx];
+      const monthTitle = MONTH_NAMES[monthIdx];
+      const rawString = RAW_SHIFTS[monthKey][selectedTeam];
+      const shiftsArr = rawString.split(',');
+
+      const [mStr, yStr] = monthKey.split('.');
+      const monthNumber = parseInt(mStr);
+      const yearNumber = parseInt(yStr);
+
+      const firstDayDate = new Date(yearNumber, monthNumber - 1, 1);
+      let startDay = firstDayDate.getDay();
+      startDay = (startDay === 0) ? 6 : startDay - 1; 
+
+      const card = document.createElement('div');
+      card.className = 'bg-md-surfaceContainerLow rounded-[28px] p-3.5 shadow-sm border border-md-outlineVariant/30';
+
+      let html = `
+        <div class="flex justify-between items-center mb-2.5 px-0.5">
+          <h2 class="font-bold text-md-onSurface ${isMini ? 'text-sm' : 'text-base'}">${monthTitle}</h2>
+          <span class="text-[10px] font-bold px-2.5 py-0.5 rounded-full bg-md-primaryContainer text-md-onPrimaryContainer">${selectedTeam}</span>
+        </div>
+        <div class="grid grid-cols-7 gap-1 text-center font-bold text-[10px] text-md-onSurfaceVariant mb-1.5">
+          <div>Po</div><div>Út</div><div>St</div><div>Čt</div><div>Pá</div><div>So</div><div>Ne</div>
+        </div>
+        <div class="grid grid-cols-7 gap-1">
+      `;
+
+      // Blank slots
+      for (let i = 0; i < startDay; i++) {
+        html += `<div class="aspect-[1/1.15] rounded-xl bg-md-surfaceContainer/20"></div>`;
+      }
+
+      // Day Boxes
+      shiftsArr.forEach((shiftCode, index) => {
+        const dayNum = index + 1;
+        const dateKey = `${dayNum}.${monthKey}`;
+        const holidayName = HOLIDAYS[dateKey];
+        const dayUserData = userDayData[dateKey] || {};
+
+        let shiftText = shiftCode;
+        let badgeStyle = 'background-color: #ffffff; color: #49454f; border: 1px solid #e0e0e0;';
+
+        if (shiftCode === 'R') {
+          shiftText = 'RANNÍ';
+          badgeStyle = 'background-color: #e6f4ea; color: #137333; border: 1px solid #a8dab5;';
+        } else if (shiftCode === 'O') {
+          shiftText = 'ODPO';
+          badgeStyle = 'background-color: #fef7e0; color: #b06000; border: 1px solid #ffd8a8;';
+        } else if (shiftCode === 'N') {
+          shiftText = 'NOČNÍ';
+          badgeStyle = 'background-color: #e8f0fe; color: #1a73e8; border: 1px solid #adc6ff;';
+        } else if (shiftCode === 'volno') {
+          shiftText = 'VOLNO';
+        }
+
+        const extraClasses = [
+          holidayName ? 'is-holiday' : '',
+          dayUserData.v ? 'is-vacation' : '',
+          dayUserData.n ? 'has-note' : ''
+        ].join(' ');
+
+        html += `
+          <button onclick="openEditModal('${dateKey}', '${shiftText}')" style="${badgeStyle}" 
+            class="aspect-[1/1.15] min-h-[46px] rounded-xl p-1 flex flex-col justify-between items-start text-left relative transition active:scale-95 shadow-sm md-ripple ${extraClasses}">
+            <span class="font-extrabold text-xs leading-none">${dayNum}</span>
+            <span class="font-black text-[8px] sm:text-[9px] uppercase tracking-tighter leading-none opacity-90 truncate w-full">${shiftText}</span>
+          </button>
+        `;
+      });
+
+      html += `</div>`;
+      card.innerHTML = html;
+      return card;
+    }
+
+    // VACATION DASHBOARD
+    function updateVacationDashboard() {
+      let usedCount = 0;
+      const vacationList = [];
+
+      for (const dateKey in userDayData) {
+        if (userDayData[dateKey].v) {
+          usedCount++;
+          vacationList.push({ date: dateKey, note: userDayData[dateKey].n || '' });
+        }
+      }
+
+      const remaining = Math.max(0, vacationAllowance - usedCount);
+
+      document.getElementById('vacRemainingCount').textContent = remaining;
+      document.getElementById('vacTotalAllowanceDisplay').textContent = vacationAllowance;
+      document.getElementById('vacUsedCount').textContent = usedCount;
+      document.getElementById('vacInputAllowance').value = vacationAllowance;
+      document.getElementById('settingsVacAllowanceInput').value = vacationAllowance;
+
+      const listContainer = document.getElementById('vacationDaysList');
+      listContainer.innerHTML = '';
+
+      if (vacationList.length === 0) {
+        listContainer.innerHTML = `
+          <div class="p-3 text-center text-xs text-md-onSurfaceVariant bg-white rounded-2xl border border-md-outlineVariant/30">
+            Zatím nemáte naplánovanou žádnou dovolenou. Klikněte na jakýkoliv den v kalendáři a označte jej. 🌴
+          </div>
+        `;
+      } else {
+        vacationList.forEach(item => {
+          const div = document.createElement('div');
+          div.className = 'p-2.5 bg-white rounded-2xl border border-md-outlineVariant/30 flex justify-between items-center text-xs';
+          div.innerHTML = `
+            <div class="flex items-center gap-2">
+              <span class="text-base">🌴</span>
+              <div>
+                <strong class="font-bold text-md-onSurface block text-xs">${item.date}</strong>
+                ${item.note ? `<span class="text-md-onSurfaceVariant text-[10px] block">${item.note}</span>` : ''}
+              </div>
+            </div>
+            <button onclick="openEditModal('${item.date}', 'DOVOLENÁ')" class="px-2.5 py-1 bg-md-surfaceContainer text-md-primary font-bold text-[11px] rounded-xl hover:bg-md-surfaceContainerHigh">Upravit</button>
+          `;
+          listContainer.appendChild(div);
+        });
+      }
+    }
+
+    function updateAllowanceFromInput(val) {
+      vacationAllowance = parseInt(val) || 25;
+      localStorage.setItem('bosch_vacation_allowance', vacationAllowance);
+      updateVacationDashboard();
+    }
+
+    // INBOX TAB
+    function renderInbox() {
+      const container = document.getElementById('inboxContentList');
+      container.innerHTML = '';
+
+      const notesList = [];
+      for (const dateKey in userDayData) {
+        if (userDayData[dateKey].n) {
+          notesList.push({ date: dateKey, note: userDayData[dateKey].n });
+        }
+      }
+
+      const systemCard = document.createElement('div');
+      systemCard.className = 'p-3.5 rounded-2xl bg-white border border-md-outlineVariant/30 space-y-1';
+      systemCard.innerHTML = `
+        <div class="flex items-center gap-1.5">
+          <span class="w-2 h-2 rounded-full bg-md-primary"></span>
+          <span class="text-[11px] font-bold text-md-primary">Systémové Oznámení</span>
+        </div>
+        <h4 class="text-xs font-bold text-md-onSurface">Rozpis směn Bosch 2026 / 2027 je aktivní</h4>
+        <p class="text-[11px] text-md-onSurfaceVariant">Harmonogram směn pro týmy Němček, Bártl, Růžička a Sellner platí od 1. 10. 2026 do 30. 6. 2027.</p>
+      `;
+      container.appendChild(systemCard);
+
+      if (notesList.length > 0) {
+        notesList.forEach(item => {
+          const card = document.createElement('div');
+          card.className = 'p-3.5 rounded-2xl bg-white border border-md-outlineVariant/30 space-y-1';
+          card.innerHTML = `
+            <div class="flex justify-between items-center text-xs">
+              <span class="font-bold text-md-primary flex items-center gap-1 text-[11px]">📝 Poznámka / Přesčas</span>
+              <span class="text-md-onSurfaceVariant font-bold text-[11px]">${item.date}</span>
+            </div>
+            <p class="text-xs font-medium text-md-onSurface">${item.note}</p>
+          `;
+          container.appendChild(card);
+        });
+      }
+    }
+
+    // MODALS
+    function openEditModal(dateKey, shiftText) {
+      activeEditingKey = dateKey;
+      const data = userDayData[dateKey] || {};
+
+      document.getElementById('modalTeamLabel').textContent = `Tým: ${selectedTeam}`;
+      document.getElementById('modalDate').textContent = `${dateKey}`;
+      document.getElementById('modalShiftInfo').textContent = `Plánovaná směna: ${shiftText}`;
+      document.getElementById('modalVacation').checked = !!data.v;
+      document.getElementById('modalNote').value = data.n || '';
+
+      document.getElementById('editModal').showModal();
+    }
+
+    function closeModal() {
+      document.getElementById('editModal').close();
+    }
+
+    function saveDayData() {
+      if (!activeEditingKey) return;
+      const vac = document.getElementById('modalVacation').checked;
+      const note = document.getElementById('modalNote').value.trim();
+
+      if (vac || note) {
+        userDayData[activeEditingKey] = { v: vac, n: note };
+      } else {
+        delete userDayData[activeEditingKey];
+      }
+
+      localStorage.setItem('bosch_user_notes', JSON.stringify(userDayData));
+      closeModal();
+      renderCalendar();
+      updateVacationDashboard();
+      if (currentTab === 'inbox') renderInbox();
+    }
+
+    function deleteDayData() {
+      if (!activeEditingKey) return;
+      delete userDayData[activeEditingKey];
+      localStorage.setItem('bosch_user_notes', JSON.stringify(userDayData));
+      closeModal();
+      renderCalendar();
+      updateVacationDashboard();
+      if (currentTab === 'inbox') renderInbox();
+    }
+
+    function openSettingsModal() {
+      renderTeamModalButtons();
+      document.getElementById('settingsModal').showModal();
+    }
+
+    function closeSettingsModal() {
+      document.getElementById('settingsModal').close();
+    }
+
+    function renderTeamModalButtons() {
+      const container = document.getElementById('teamModalButtons');
+      container.innerHTML = '';
+
+      TEAMS.forEach(team => {
+        const isSel = team === selectedTeam;
+        const btn = document.createElement('button');
+        btn.type = 'button';
+        btn.onclick = () => selectTeam(team);
+        btn.className = `p-3 rounded-2xl border-2 font-bold text-xs transition-all ${
+          isSel 
+            ? 'border-md-primary bg-md-primaryContainer text-md-onPrimaryContainer shadow-sm' 
+            : 'border-md-outlineVariant/40 bg-md-surfaceContainerLow text-md-onSurfaceVariant hover:bg-md-surfaceContainer'
+        }`;
+        btn.textContent = team;
+        container.appendChild(btn);
+      });
+    }
+
+    function renderSettingsButtons() {
+      const container = document.getElementById('settingsTeamButtons');
+      if (!container) return;
+      container.innerHTML = '';
+
+      TEAMS.forEach(team => {
+        const isSel = team === selectedTeam;
+        const btn = document.createElement('button');
+        btn.type = 'button';
+        btn.onclick = () => selectTeam(team);
+        btn.className = `p-3 rounded-2xl border-2 font-bold text-xs transition-all ${
+          isSel 
+            ? 'border-md-primary bg-md-primaryContainer text-md-onPrimaryContainer shadow-sm' 
+            : 'border-md-outlineVariant/40 bg-md-surfaceContainerLow text-md-onSurfaceVariant hover:bg-md-surfaceContainer'
+        }`;
+        btn.textContent = team;
+        container.appendChild(btn);
+      });
+    }
+
+    function selectTeam(team) {
+      selectedTeam = team;
+      localStorage.setItem('bosch_user_team', selectedTeam);
+      updateTeamBadge();
+      renderTeamModalButtons();
+      renderSettingsButtons();
+      renderCalendar();
+      updateVacationDashboard();
+    }
+
+    function clearUserData() {
+      if (confirm('Opravdu chcete smazat všechny vaše uložené poznámky, dovolené a resetovat nastavení?')) {
+        userDayData = {};
+        vacationAllowance = 25;
+        localStorage.removeItem('bosch_user_notes');
+        localStorage.removeItem('bosch_vacation_allowance');
+        renderCalendar();
+        updateVacationDashboard();
+        renderInbox();
+      }
+    }
+  </script>
+</body>
+</html>
